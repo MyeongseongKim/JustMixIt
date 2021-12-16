@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/Users/sehee/NetBeansProjects/JustSketchIt-101/justSketchIt-111/src/jsi/cmd/JSICmdToSetAnchorOpaqueness.java</file>
+            <file>file:/Users/sehee/NetBeansProjects/JustSketchIt-101/justSketchIt-111/src/jsi/JSISelectionBox.java</file>
+            <file>file:/Users/sehee/NetBeansProjects/JustSketchIt-101/justSketchIt-111/src/jsi/cmd/JSICmdToSetStartingScreenPtForXform.java</file>
+            <file>file:/Users/sehee/NetBeansProjects/JustSketchIt-101/justSketchIt-111/src/jsi/cmd/JSICmdToRecalcOpaquenessOfColorChooser.java</file>
+            <file>file:/Users/sehee/NetBeansProjects/JustSketchIt-101/justSketchIt-111/src/jsi/JSIColorChooser.java</file>
+            <file>file:/Users/sehee/NetBeansProjects/JustSketchIt-101/justSketchIt-111/src/x/XCmdToChangeScene.java</file>
+            <file>file:/Users/sehee/NetBeansProjects/JustSketchIt-101/justSketchIt-111/src/jsi/JSIApp.java</file>
+            <file>file:/Users/sehee/NetBeansProjects/JustSketchIt-101/justSketchIt-111/src/jsi/cmd/JSICmdToDestroySelectionBox.java</file>
+            <file>file:/Users/sehee/NetBeansProjects/JustSketchIt-101/justSketchIt-111/src/jsi/cmd/JSICmdToTranslateTo.java</file>
+            <file>file:/Users/sehee/NetBeansProjects/JustSketchIt-101/justSketchIt-111/src/x/XScenario.java</file>
+            <file>file:/Users/sehee/NetBeansProjects/JustSketchIt-101/justSketchIt-111/src/jsi/scenario/JSIColorScenario.java</file>
+            <file>file:/Users/sehee/NetBeansProjects/JustSketchIt-101/justSketchIt-111/src/jsi/cmd/JSICmdToIncreaseStrokeWidthForSelectedPtCurves.java</file>
+            <file>file:/Users/sehee/NetBeansProjects/JustSketchIt-101/justSketchIt-111/src/x/XScenarioMgr.java</file>
+            <file>file:/Users/sehee/NetBeansProjects/JustSketchIt-101/justSketchIt-111/src/jsi/JSIScene.java</file>
+            <file>file:/Users/sehee/NetBeansProjects/JustSketchIt-101/justSketchIt-111/src/jsi/cmd/JSICmdToChangeColorForSelectedPtCurves.java</file>
+            <file>file:/Users/sehee/NetBeansProjects/JustSketchIt-101/justSketchIt-111/src/jsi/cmd/JSICmdToCreateCurPtCurve.java</file>
+            <file>file:/Users/sehee/NetBeansProjects/JustSketchIt-101/justSketchIt-111/src/jsi/JSIPenMark.java</file>
+            <file>file:/Users/sehee/NetBeansProjects/JustSketchIt-101/justSketchIt-111/src/jsi/JSICanvas2D.java</file>
+            <file>file:/Users/sehee/NetBeansProjects/JustSketchIt-101/justSketchIt-111/src/jsi/cmd/JSICmdToDeselectSelectedPtCurves.java</file>
+            <file>file:/Users/sehee/NetBeansProjects/JustSketchIt-101/justSketchIt-111/src/jsi/cmd/JSICmdToHome.java</file>
+            <file>file:/Users/sehee/NetBeansProjects/JustSketchIt-101/justSketchIt-111/src/x/XLogMgr.java</file>
+            <file>file:/Users/sehee/NetBeansProjects/JustSketchIt-101/justSketchIt-111/src/jsi/cmd/JSICmdToUpdateSelectionBox.java</file>
+            <file>file:/Users/sehee/NetBeansProjects/JustSketchIt-101/justSketchIt-111/src/jsi/cmd/JSICmdToDeleteSelectedPtCurves.java</file>
+            <file>file:/Users/sehee/NetBeansProjects/JustSketchIt-101/justSketchIt-111/src/jsi/JSIPenMarkMgr.java</file>
+            <file>file:/Users/sehee/NetBeansProjects/JustSketchIt-101/justSketchIt-111/src/jsi/cmd/JSICmdToAddCurPtCurveToPtCurves.java</file>
+            <file>file:/Users/sehee/NetBeansProjects/JustSketchIt-101/justSketchIt-111/src/jsi/cmd/JSICmdToRecalcSaturationOfColorChooser.java</file>
+            <file>file:/Users/sehee/NetBeansProjects/JustSketchIt-101/justSketchIt-111/src/jsi/scenario/JSINavigateScenario.java</file>
+            <file>file:/Users/sehee/NetBeansProjects/JustSketchIt-101/justSketchIt-111/src/jsi/JSIScenarioMgr.java</file>
+            <file>file:/Users/sehee/NetBeansProjects/JustSketchIt-101/justSketchIt-111/src/jsi/cmd/JSICmdToUpdateSelectedPtCurves.java</file>
+            <file>file:/Users/sehee/NetBeansProjects/JustSketchIt-101/justSketchIt-111/src/jsi/cmd/JSICmdToCreateSelectionBox.java</file>
+            <file>file:/Users/sehee/NetBeansProjects/JustSketchIt-101/justSketchIt-111/src/jsi/cmd/JSICmdToUpdateCurPtCurve.java</file>
+            <file>file:/Users/sehee/NetBeansProjects/JustSketchIt-101/justSketchIt-111/src/x/XApp.java</file>
+            <file>file:/Users/sehee/NetBeansProjects/JustSketchIt-101/justSketchIt-111/src/x/XLoggableCmd.java</file>
+            <file>file:/Users/sehee/NetBeansProjects/JustSketchIt-101/justSketchIt-111/src/jsi/JSIEventListener.java</file>
+            <file>file:/Users/sehee/NetBeansProjects/JustSketchIt-101/justSketchIt-111/src/jsi/scenario/JSIDefaultScenario.java</file>
+            <file>file:/Users/sehee/NetBeansProjects/JustSketchIt-101/justSketchIt-111/src/jsi/JSIPtCurveMgr.java</file>
+            <file>file:/Users/sehee/NetBeansProjects/JustSketchIt-101/justSketchIt-111/src/jsi/scenario/JSIDrawScenario.java</file>
+            <file>file:/Users/sehee/NetBeansProjects/JustSketchIt-101/justSketchIt-111/src/jsi/cmd/JSICmdToSetAnchorSaturation.java</file>
+            <file>file:/Users/sehee/NetBeansProjects/JustSketchIt-101/justSketchIt-111/src/jsi/scenario/JSISelectScenario.java</file>
+            <file>file:/Users/sehee/NetBeansProjects/JustSketchIt-101/justSketchIt-111/src/jsi/cmd/JSICmdToZoomNRotate.java</file>
+            <file>file:/Users/sehee/NetBeansProjects/JustSketchIt-101/justSketchIt-111/src/x/XExecutable.java</file>
+            <file>file:/Users/sehee/NetBeansProjects/JustSketchIt-101/justSketchIt-111/src/jsi/JSIPtCurve.java</file>
+            <file>file:/Users/sehee/NetBeansProjects/JustSketchIt-101/justSketchIt-111/src/jsi/JSIXform.java</file>
+            <file>file:/Users/sehee/NetBeansProjects/JustSketchIt-101/justSketchIt-111/src/jsi/cmd/JSICmdToChangeColorForCurPtCurve.java</file>
+            <file>file:/Users/sehee/NetBeansProjects/JustSketchIt-101/justSketchIt-111/src/x/XScene.java</file>
+            <file>file:/Users/sehee/NetBeansProjects/JustSketchIt-101/justSketchIt-111/src/jsi/cmd/JSICmdToIncreaseStrokeWidthForCurPtCurve.java</file>
+        </group>
+    </open-files>
+</project-private>
