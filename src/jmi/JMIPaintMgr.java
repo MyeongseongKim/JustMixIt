@@ -4,18 +4,19 @@ import java.util.ArrayList;
 
 import java.awt.Color;
 import java.awt.Point;
+import java.awt.geom.Point2D;
 
 
 public class JMIPaintMgr {
     // constants
-    public static final int NUM_BASIC_COLOR = 20;
-    public static final int NUM_CUSTOM_COLOR = 20;
+    public final int NUM_BASIC_COLOR = 20;
+    public final int NUM_CUSTOM_COLOR = 20;
 
     // fields
     JMIApp mApp = null;
 
-    private ArrayList<JMIPaint> mPaints = null;
-    public ArrayList<JMIPaint> getPaints() {
+    private ArrayList<JMILimitedPaint> mPaints = null;
+    public ArrayList<JMILimitedPaint> getPaints() {
         return mPaints;
     }
 
@@ -48,14 +49,15 @@ public class JMIPaintMgr {
     private void initCustomPaints() {
         for (int i = 0; i < NUM_CUSTOM_COLOR; i++) {
 //            mCustomPaints.add(new JMIUnlimitedPaint(null));
-            mCustomPaints.add(new JMIUnlimitedPaint(new Color((float) Math.random(), (float) Math.random(), (float) Math.random(), (float) Math.random())));
+            mCustomPaints.add(new JMIUnlimitedPaint(
+                new Color((float) Math.random(), (float) Math.random(), (float) Math.random(), (float) Math.random())));
         }
     }
 
     // constructor
     public JMIPaintMgr(JMIApp app) {
         this.mApp = app;
-        this.mPaints = new ArrayList<JMIPaint>();
+        this.mPaints = new ArrayList<JMILimitedPaint>();
         this.mBasicPaints = new ArrayList<JMIPaint>();
         this.mCustomPaints = new ArrayList<JMIPaint>();
         setBasicPaints();
@@ -90,7 +92,36 @@ public class JMIPaintMgr {
         return null;
     }
 
-    public void updatePaints() {
-        
+    public boolean checkOverlaps() {
+        for (int i = 0; i < mPaints.size(); i++) {
+            if (checkOverlap(i) != -1) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public int checkOverlap(int index) {
+        JMILimitedPaint p1 = mPaints.get(index);
+        for (int i = 0; i < mPaints.size(); i++) {
+            JMILimitedPaint p2 = mPaints.get(i);
+            if (p1 != p2) {
+                double r1 = p1.getRadius();
+                double r2 = p2.getRadius();
+                double d = p1.getPt().distance(p2.getPt());
+
+                // When overlaped
+                if (r1 + r2 > d) {
+                    return i;
+                }
+            }
+        }
+        return -1;
+    }
+
+    public void mix(JMILimitedPaint a, JMILimitedPaint b) {
+        mPaints.add(JMILimitedPaint.mix(a, b));
+        mPaints.remove(a);
+        mPaints.remove(b);
     }
 }

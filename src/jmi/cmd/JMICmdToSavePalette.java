@@ -13,7 +13,7 @@ import x.XLoggableCmd;
 
 public class JMICmdToSavePalette extends XLoggableCmd {
     //field
-    private JFileChooser mFileChooser = null;
+	
     //private constructor
     private JMICmdToSavePalette(XApp app) {
         super(app);
@@ -48,12 +48,12 @@ public class JMICmdToSavePalette extends XLoggableCmd {
 		FileFilter filter = new FileFilter() {
 			@Override
 			public boolean accept(File f) {
-				return f.getName().endsWith(".txt") || f.isDirectory();
+				return f.getName().endsWith(".xml") || f.isDirectory();
 			}
 
 			@Override
 			public String getDescription() {
-				return "Text Files";
+				return "XML Files";
 			}
 		};
 		fileChooser.setFileFilter(filter);
@@ -61,7 +61,7 @@ public class JMICmdToSavePalette extends XLoggableCmd {
 		if (fileChooser.showSaveDialog(app.getFrame()) == 
 			JFileChooser.APPROVE_OPTION) {
 			try (FileWriter fw = new FileWriter(fileChooser.getSelectedFile() + 
-					".txt")) {
+					".xml")) {
 				fw.write(colors);
 				fw.close();
 			} catch (IOException ex) {

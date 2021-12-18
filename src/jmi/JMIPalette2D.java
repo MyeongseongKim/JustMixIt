@@ -4,11 +4,11 @@ import javax.swing.JPanel;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Point;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.Ellipse2D;
 
@@ -78,12 +78,12 @@ public class JMIPalette2D extends JPanel{
     }
     
     private void drawPaints(Graphics2D g2) {
-        for (JMIPaint paint : mApp.getPaintMgr().getPaints()) {
+        for (JMILimitedPaint paint : mApp.getPaintMgr().getPaints()) {
             Color c = paint.getColor();
-            Point ctr = paint.getPt();
+            Point2D ctr = paint.getPt();
             double r = paint.getRadius();
     
-            Ellipse2D e = new Ellipse2D.Double(ctr.x - r, ctr.y - r, 2*r, 2*r);
+            Ellipse2D e = new Ellipse2D.Double(ctr.getX() - r, ctr.getY() - r, 2*r, 2*r);
             g2.setColor(c);
             g2.fill(e);
         }

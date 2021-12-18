@@ -5,11 +5,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
 import jmi.JMIApp;
@@ -20,8 +17,8 @@ import x.XLoggableCmd;
 
 public class JMICmdToOpenPalette extends XLoggableCmd {
     //field
-    private JFileChooser mFileChooser = null;
-    //private constructor
+
+	//private constructor
     private JMICmdToOpenPalette(XApp app) {
         super(app);
     }
@@ -43,12 +40,12 @@ public class JMICmdToOpenPalette extends XLoggableCmd {
 		FileFilter filter = new FileFilter() {
 			@Override
 			public boolean accept(File f) {
-				return f.getName().endsWith(".txt") || f.isDirectory();
+				return f.getName().endsWith(".xml") || f.isDirectory();
 			}
 
 			@Override
 			public String getDescription() {
-				return "Text Files";
+				return "XML Files";
 			}
 		};
 		fileChooser.setFileFilter(filter);

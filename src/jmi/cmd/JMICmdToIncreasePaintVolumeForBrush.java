@@ -1,6 +1,5 @@
 package jmi.cmd;
 
-import java.awt.Color;
 import jmi.JMIApp;
 import x.XApp;
 import x.XLoggableCmd;
@@ -23,15 +22,14 @@ public class JMICmdToIncreasePaintVolumeForBrush extends XLoggableCmd {
     @Override
     protected boolean defineCmd() {
         JMIApp app = (JMIApp) this.mApp;
-        app.getBrush().updateVolume(mCoefficient);
+        app.getBrush().updateVolume();
         return true;
     }
 
     @Override
     protected String createLog() {
         StringBuffer sb = new StringBuffer();
-        sb.append(this.getClass().getSimpleName()).append("\t");
-        sb.append(this.mCoefficient);
+        sb.append(this.getClass().getSimpleName());
         return sb.toString();
     }
 }    

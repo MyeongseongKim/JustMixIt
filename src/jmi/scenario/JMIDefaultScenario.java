@@ -6,9 +6,10 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 import jmi.JMIApp;
+import jmi.JMILimitedPaint;
 import jmi.JMIScene;
 import jmi.JMIPaint;
-
+import jmi.JMIPaintMgr;
 import jsi.JSIApp;
 import jsi.scenario.JSIDefaultScenario;
 import jsi.scenario.JSISelectScenario;
@@ -196,7 +197,21 @@ public class JMIDefaultScenario extends XScenario {
         public void renderScreenObjects(Graphics2D g2) {}
         
         @Override
-        public void getReady() {}
+        public void getReady() {
+            JMIApp app = (JMIApp)this.mScenario.getApp();
+            JMIPaintMgr paintMgr = app.getPaintMgr();
+            while (paintMgr.checkOverlaps()) {
+                for (int i = 0; i < paintMgr.getPaints().size(); i++) {
+                    int j = paintMgr.checkOverlap(i);
+                    if (j != -1) {
+                        JMILimitedPaint p1 = paintMgr.getPaints().get(i);
+                        JMILimitedPaint p2 = paintMgr.getPaints().get(j);
+                        paintMgr.mix(p1, p2);
+                        return;
+                    }
+                }
+            }
+        }
         
         @Override
         public void wrapUp() {}
