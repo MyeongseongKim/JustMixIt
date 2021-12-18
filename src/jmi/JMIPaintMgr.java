@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import java.awt.Color;
 import java.awt.Point;
-import java.awt.geom.Point2D;
 
 
 public class JMIPaintMgr {
@@ -87,7 +86,9 @@ public class JMIPaintMgr {
         // }
         // On 
         else {
-
+            for(JMILimitedPaint paint : mPaints) {
+                if (paint.isUnder(pt))  return paint;
+            }
         }
         return null;
     }
@@ -117,11 +118,5 @@ public class JMIPaintMgr {
             }
         }
         return -1;
-    }
-
-    public void mix(JMILimitedPaint a, JMILimitedPaint b) {
-        mPaints.add(JMILimitedPaint.mix(a, b));
-        mPaints.remove(a);
-        mPaints.remove(b);
     }
 }

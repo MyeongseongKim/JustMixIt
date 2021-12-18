@@ -15,6 +15,7 @@ import jsi.scenario.JSIDefaultScenario;
 import jsi.scenario.JSISelectScenario;
 
 import jmi.cmd.JMICmdToInitBrush;
+import jmi.cmd.JMICmdToMixPaint;
 import jmi.cmd.JMICmdToChangeColorForBrush;
 import jmi.cmd.JMICmdToOpenPalette;
 import jmi.cmd.JMICmdToSavePalette;
@@ -125,7 +126,7 @@ public class JMIDefaultScenario extends XScenario {
             Point pt = e.getPoint();
 
             JMIPaint paint = app.getPaintMgr().getPaint(app.getBrush().getPt());
-            if (paint != null && paint.getColor() != null) {
+            if (paint != null && app.getBrush().getVolume() == 0) {
                 if (paint.getColor() != app.getBrush().getColor())
                     JMICmdToInitBrush.execute(app);
                 JMICmdToChangeColorForBrush.execute(app, paint.getColor());
@@ -206,7 +207,7 @@ public class JMIDefaultScenario extends XScenario {
                     if (j != -1) {
                         JMILimitedPaint p1 = paintMgr.getPaints().get(i);
                         JMILimitedPaint p2 = paintMgr.getPaints().get(j);
-                        paintMgr.mix(p1, p2);
+                        JMICmdToMixPaint.execute(app, p1, p2);
                         return;
                     }
                 }

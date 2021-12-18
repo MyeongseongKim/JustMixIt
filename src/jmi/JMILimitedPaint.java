@@ -38,6 +38,13 @@ public class JMILimitedPaint extends JMIPaint{
         this.mRadius = Math.sqrt((Math.abs(COEFFICENT_VALUE) * mVolume));
     }
 
+    // methods
+    public boolean isUnder(Point pt) {
+        Point2D pt2D = new Point2D.Double(pt.x, pt.y);
+        if (pt2D.distance(mPt) < mRadius)   return true;
+        else    return false;
+    }
+
     // static methods
     public static JMILimitedPaint mix(JMILimitedPaint p1, JMILimitedPaint p2) {
         float[] c1 = p1.getColor().getRGBComponents(null);
