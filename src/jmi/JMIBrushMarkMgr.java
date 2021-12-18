@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class JMIBrushMarkMgr {
     // constants
-    public static final int MAX_NUM_BRUSH_MARKS = 5;
+    public static final int MAX_NUM_BRUSH_MARKS = 1;
 
     // fields
     private ArrayList<JMIBrushMark> mBrushMarks = null;

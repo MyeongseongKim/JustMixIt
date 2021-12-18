@@ -25,7 +25,6 @@ public class JSICanvas2D extends JPanel {
     private static final Color COLOR_INFO = new Color(255, 0, 0, 128);
     private static final Stroke STROKE_PT_CURVE_DEFAULT = 
         new BasicStroke(5.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
-    private static final Stroke STROKE_SELECTED_PT_CURVE = new BasicStroke(5.0f);
     public static final Stroke STROKE_SELECTION_BOX = new BasicStroke(5.0f);
     public static final Stroke STROKE_CROSSHAIR = new BasicStroke(5.0f);
     private static final Font FONT_INFO = new Font("Monospaced", Font.PLAIN, 24);
@@ -120,13 +119,17 @@ public class JSICanvas2D extends JPanel {
             BasicStroke originalStroke = (BasicStroke)selectedPtCurve.getStroke();
             BasicStroke bgStroke = new BasicStroke(originalStroke.getLineWidth() + 5.0f,
                     originalStroke.getEndCap(), originalStroke.getLineJoin());
-            this.drawPtCurve(g2, selectedPtCurve,
+            
+                    this.drawPtCurve(g2, selectedPtCurve,
                     JSICanvas2D.COLOR_SELECTED_PT_CURVE,
                     bgStroke);
-            
+            this.drawPtCurve(g2, selectedPtCurve,
+                    new Color(255),
+                    originalStroke);
+
             this.drawPtCurve(g2, selectedPtCurve,
                     selectedPtCurve.getColor(),
-                    selectedPtCurve.getStroke());
+                    originalStroke);
         }
     }
 

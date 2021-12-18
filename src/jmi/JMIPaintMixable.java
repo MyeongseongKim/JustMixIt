@@ -31,10 +31,10 @@ public class JMIPaintMixable extends JMIPaint{
     }
 
     // constructor
-    public JMIPaintMixable(Color c, Point2D pt, double m) {
+    public JMIPaintMixable(Color c, Point2D pt, double v) {
         super(c);
         this.mPt = pt;
-        this.mVolume = m;
+        this.mVolume = v;
         this.mRadius = Math.sqrt((Math.abs(COEFFICENT_VALUE) * mVolume));
     }
 

@@ -1,6 +1,8 @@
 package jmi.scenario;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
@@ -94,8 +96,14 @@ public class JMIColorScenario extends XScenario {
             }
             jsi.getCanvas2D().repaint();
 
-            XCmdToChangeScene.execute(app, 
-                PaintGenerateScene.getSingleton(), this);
+            if (app.getBrush().getVolume() > 0) {
+                XCmdToChangeScene.execute(app, 
+                    JMIColorScenario.PaintGenerateScene.getSingleton(), this.mReturnScene);
+            }
+            else {
+                XCmdToChangeScene.execute(app, 
+                    this.mReturnScene, null);
+            }
         }
        
         @Override
@@ -114,7 +122,13 @@ public class JMIColorScenario extends XScenario {
         public void renderScreenObjects(Graphics2D g2) {}
         
         @Override
-        public void getReady() {}
+        public void getReady() {
+            JMIApp app = (JMIApp)this.mScenario.getApp();
+            Point pt = app.getBrush().getPt();
+            Color c = app.getPaintMgr().getPaint(pt).getColor();
+
+            JMICmdToChangeColorForBrush.execute(app, c);
+        }
         
         @Override
         public void wrapUp() {}
@@ -141,12 +155,12 @@ public class JMIColorScenario extends XScenario {
         public void handleMousePress(MouseEvent e) {
             JMIApp app = (JMIApp)this.mScenario.getApp();
             app.getBrush().setPt(e.getPoint());
+            Point pt = app.getBrush().getPt();
 
-            JMIPaint paint = app.getPaintMgr().getPaint(app.getBrush().getPt());
+            JMIPaint paint = app.getPaintMgr().getPaint(pt);
             if (paint != null) {
                 if (paint.getColor() != app.getBrush().getColor())
                     JMICmdToInitBrush.execute(app);
-                JMICmdToChangeColorForBrush.execute(app, paint.getColor());
                 XCmdToChangeScene.execute(app, 
                     JMIColorScenario.PaintSelectScene.getSingleton(), this);
             }
@@ -171,7 +185,18 @@ public class JMIColorScenario extends XScenario {
         }
        
         @Override
-        public void handleKeyDown(KeyEvent e) {}
+        public void handleKeyDown(KeyEvent e) {
+            JMIApp app = (JMIApp)this.mScenario.getApp();
+            int code = e.getKeyCode();
+
+            switch(code) {
+                case KeyEvent.VK_ESCAPE:
+                    JMICmdToInitBrush.execute(app);
+                    XCmdToChangeScene.execute(app, 
+                        this.mReturnScene, null);
+                    break;
+            }
+        }
 
         @Override
         public void handleKeyUp(KeyEvent e) {}

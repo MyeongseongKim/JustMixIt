@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class JMIBrushMark {
     // constants
-    public static final double MIN_DIST_BTWN_PTS = 5.0;
+    public static final double MIN_DIST_BTWN_PTS = 1.0;
 
     // fields
     private ArrayList<Point> mPts = null;

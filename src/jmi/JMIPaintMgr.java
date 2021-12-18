@@ -47,9 +47,9 @@ public class JMIPaintMgr {
 	
     private void initCustomPaints() {
         for (int i = 0; i < NUM_CUSTOM_COLOR; i++) {
-//            mCustomPaints.add(new JMIPaint(null));
-            mCustomPaints.add(new JMIPaint(
-                new Color((float) Math.random(), (float) Math.random(), (float) Math.random(), (float) Math.random())));
+            mCustomPaints.add(new JMIPaint(null));
+            // mCustomPaints.add(new JMIPaint(
+            //     new Color((float) Math.random(), (float) Math.random(), (float) Math.random(), (float) Math.random())));
         }
     }
 
@@ -93,17 +93,13 @@ public class JMIPaintMgr {
         return null;
     }
 
-    public boolean checkOverlaps() {
-        for (int i = 0; i < mPaints.size(); i++) {
-            if (checkOverlap(i) != -1) {
-                return true;
-            }
-        }
-        return false;
+    public JMIPaintMixable getLastPaint() {
+        int index = mPaints.size() - 1;
+        if (index < 0)  return null;
+        else    return mPaints.get(index);
     }
 
-    public int checkOverlap(int index) {
-        JMIPaintMixable p1 = mPaints.get(index);
+    public JMIPaintMixable getOverlap(JMIPaintMixable p1) {
         for (int i = 0; i < mPaints.size(); i++) {
             JMIPaintMixable p2 = mPaints.get(i);
             if (p1 != p2) {
@@ -113,10 +109,10 @@ public class JMIPaintMgr {
 
                 // When overlaped
                 if (r1 + r2 > d) {
-                    return i;
+                    return mPaints.get(i);
                 }
             }
         }
-        return -1;
+        return null;
     }
 }

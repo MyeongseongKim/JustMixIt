@@ -1,6 +1,7 @@
 package jmi.scenario;
 
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
@@ -119,19 +120,13 @@ public class JMIDefaultScenario extends XScenario {
         public void handleMousePress(MouseEvent e) {
             JMIApp app = (JMIApp) this.mScenario.getApp();
             app.getBrush().setPt(e.getPoint());
+            Point pt = app.getBrush().getPt();
 
-            JMIPaint paint = app.getPaintMgr().getPaint(app.getBrush().getPt());
-            if (paint != null) {
-                if (paint.getColor() != app.getBrush().getColor())
-                    JMICmdToInitBrush.execute(app);
-                JMICmdToChangeColorForBrush.execute(app, paint.getColor());
+            JMIPaint paint = app.getPaintMgr().getPaint(pt);
+            if (paint != null && paint.getColor() != null) {
                 XCmdToChangeScene.execute(app, 
                     JMIColorScenario.PaintSelectScene.getSingleton(), this);
             }
-            // else if (app.getBrush().getVolume() != 0) {
-            //     XCmdToChangeScene.execute(app, 
-            //         JMIColorScenario.PaintGenerateScene.getSingleton(), this);
-            // }
         }
 
         @Override
@@ -176,7 +171,7 @@ public class JMIDefaultScenario extends XScenario {
             switch(code) {
                 case KeyEvent.VK_C:
                     XCmdToChangeScene.execute(app, 
-                        StandbyScene.getSingleton(), this);
+                        JMIDefaultScenario.StandbyScene.getSingleton(), this);
                     break;
             }
         }
@@ -194,16 +189,14 @@ public class JMIDefaultScenario extends XScenario {
         public void getReady() {
             JMIApp app = (JMIApp)this.mScenario.getApp();
             JMIPaintMgr paintMgr = app.getPaintMgr();
-            while (paintMgr.checkOverlaps()) {
-                for (int i = 0; i < paintMgr.getPaints().size(); i++) {
-                    int j = paintMgr.checkOverlap(i);
-                    if (j != -1) {
-                        JMIPaintMixable p1 = paintMgr.getPaints().get(i);
-                        JMIPaintMixable p2 = paintMgr.getPaints().get(j);
-                        JMICmdToMixPaint.execute(app, p1, p2);
-                        return;
-                    }
-                }
+            
+            JMIPaintMixable lastPaint = paintMgr.getLastPaint();
+            JMIPaintMixable overlap = paintMgr.getOverlap(lastPaint);
+            while (overlap != null) {
+                JMICmdToMixPaint.execute(app, lastPaint, overlap);
+
+                lastPaint = paintMgr.getLastPaint();
+                overlap = paintMgr.getOverlap(lastPaint);
             }
         }
         

@@ -1,12 +1,24 @@
 package jmi.scenario;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 import jmi.JMIApp;
+import jmi.JMIPaint;
+import jmi.JMIPaintMgr;
+import jmi.JMIPaintMixable;
 import jmi.JMIScene;
-
+import jmi.cmd.JMICmdToChangeColorForBrush;
+import jmi.cmd.JMICmdToChoosePaint;
+import jmi.cmd.JMICmdToCopyPaint;
+import jmi.cmd.JMICmdToDeletedLastPaint;
+import jmi.cmd.JMICmdToMixPaint;
+import jmi.cmd.JMICmdToMovePaint;
+import jmi.cmd.JMICmdToSetPaintForCustomPalette;
 import x.XApp;
 import x.XScenario;
 import x.XCmdToChangeScene;
@@ -57,10 +69,20 @@ public class JMIOrganizeScenario extends XScenario {
         public void handleMousePress(MouseEvent e) {
             JMIApp app = (JMIApp)this.mScenario.getApp();
             app.getBrush().setPt(e.getPoint());
+            Point pt = app.getBrush().getPt();
+
+            JMIPaint paint = app.getPaintMgr().getPaint(pt);
+            if (app.getPaintMgr().getPaints().contains(paint)) {
+                XCmdToChangeScene.execute(app, 
+                    JMIOrganizeScenario.MoveScene.getSingleton(), this.mReturnScene);
+            }
         }
 
         @Override
-        public void handleMouseDrag(MouseEvent e) {}
+        public void handleMouseDrag(MouseEvent e) {
+            JMIApp app = (JMIApp)this.mScenario.getApp();
+            app.getBrush().setPt(e.getPoint());
+        }
 
         @Override
         public void handleMouseRelease(MouseEvent e) {}
@@ -73,7 +95,7 @@ public class JMIOrganizeScenario extends XScenario {
             switch(code) {
                 case KeyEvent.VK_ALT:
                     XCmdToChangeScene.execute(app, 
-                        CopyReadyScene.getSingleton(), this);
+                        JMIOrganizeScenario.CopyReadyScene.getSingleton(), this.mReturnScene);
                     break;
             }
         }
@@ -101,7 +123,19 @@ public class JMIOrganizeScenario extends XScenario {
         public void renderScreenObjects(Graphics2D g2) {}
         
         @Override
-        public void getReady() {}
+        public void getReady() {
+            JMIApp app = (JMIApp)this.mScenario.getApp();
+            JMIPaintMgr paintMgr = app.getPaintMgr();
+            
+            JMIPaintMixable lastPaint = paintMgr.getLastPaint();
+            JMIPaintMixable overlap = paintMgr.getOverlap(lastPaint);
+            while (overlap != null) {
+                JMICmdToMixPaint.execute(app, lastPaint, overlap);
+
+                lastPaint = paintMgr.getLastPaint();
+                overlap = paintMgr.getOverlap(lastPaint);
+            }
+        }
         
         @Override
         public void wrapUp() {}
@@ -128,16 +162,62 @@ public class JMIOrganizeScenario extends XScenario {
         public void handleMousePress(MouseEvent e) {}
 
         @Override
-        public void handleMouseDrag(MouseEvent e) {}
+        public void handleMouseDrag(MouseEvent e) {
+            JMIApp app = (JMIApp)this.mScenario.getApp();
+            app.getBrush().setPt(e.getPoint());
+            Point pt = app.getBrush().getPt();
+
+            ArrayList<JMIPaintMixable> paints = app.getPaintMgr().getPaints();
+            JMIPaint paint = paints.get(paints.size() - 1);
+            if (paints.contains(paint)) {
+                JMICmdToMovePaint.execute(app, (JMIPaintMixable) paint);
+            }
+        }
 
         @Override
-        public void handleMouseRelease(MouseEvent e) {}
+        public void handleMouseRelease(MouseEvent e) {
+            JMIApp app = (JMIApp)this.mScenario.getApp();
+            app.getBrush().setPt(e.getPoint());
+            Point pt = app.getBrush().getPt();
+
+            ArrayList<JMIPaint> customPaints = app.getPaintMgr().getCustomPaints();
+            JMIPaint paint = app.getPaintMgr().getPaint(pt);
+            if (customPaints.contains(paint)) {
+                int index = customPaints.indexOf(paint);
+                Color c = app.getBrush().getColor();
+                JMICmdToSetPaintForCustomPalette.execute(app, index, c);
+                JMICmdToDeletedLastPaint.execute(app);
+            }
+
+            XCmdToChangeScene.execute(app, 
+                JMIOrganizeScenario.MoveReadyScene.getSingleton(), this.mReturnScene);
+        }
        
         @Override
-        public void handleKeyDown(KeyEvent e) {}
+        public void handleKeyDown(KeyEvent e) {
+            JMIApp app = (JMIApp)this.mScenario.getApp();
+            int code = e.getKeyCode();
+            
+            switch(code) {
+                case KeyEvent.VK_ALT:
+                    XCmdToChangeScene.execute(app, 
+                        JMIOrganizeScenario.CopyReadyScene.getSingleton(), this.mReturnScene);
+                    break;
+            }
+        }
 
         @Override
-        public void handleKeyUp(KeyEvent e) {}
+        public void handleKeyUp(KeyEvent e) {
+            JMIApp app = (JMIApp)this.mScenario.getApp();
+            int code = e.getKeyCode();
+            
+            switch(code) {
+                case KeyEvent.VK_CONTROL:
+                    XCmdToChangeScene.execute(app, 
+                        this.mReturnScene, null);
+                    break;
+            }
+        }
 
         @Override
         public void updateSupportObjects() {}
@@ -149,7 +229,14 @@ public class JMIOrganizeScenario extends XScenario {
         public void renderScreenObjects(Graphics2D g2) {}
         
         @Override
-        public void getReady() {}
+        public void getReady() {
+            JMIApp app = (JMIApp)this.mScenario.getApp();
+            Point pt = app.getBrush().getPt();
+            Color c = app.getPaintMgr().getPaint(pt).getColor();
+
+            JMICmdToChoosePaint.execute(app);
+            JMICmdToChangeColorForBrush.execute(app, c);
+        }
         
         @Override
         public void wrapUp() {}
@@ -173,10 +260,23 @@ public class JMIOrganizeScenario extends XScenario {
         }
 
         @Override
-        public void handleMousePress(MouseEvent e) {}
+        public void handleMousePress(MouseEvent e) {
+            JMIApp app = (JMIApp)this.mScenario.getApp();
+            app.getBrush().setPt(e.getPoint());
+            Point pt = app.getBrush().getPt();
+
+            JMIPaint paint = app.getPaintMgr().getPaint(pt);
+            if (app.getPaintMgr().getPaints().contains(paint)) {
+                XCmdToChangeScene.execute(app, 
+                    JMIOrganizeScenario.CopyScene.getSingleton(), this.mReturnScene);
+            }
+        }
 
         @Override
-        public void handleMouseDrag(MouseEvent e) {}
+        public void handleMouseDrag(MouseEvent e) {
+            JMIApp app = (JMIApp)this.mScenario.getApp();
+            app.getBrush().setPt(e.getPoint());
+        }
 
         @Override
         public void handleMouseRelease(MouseEvent e) {}
@@ -192,11 +292,11 @@ public class JMIOrganizeScenario extends XScenario {
             switch(code) {
                 case KeyEvent.VK_CONTROL:
                     XCmdToChangeScene.execute(app, 
-                        this.mReturnScene.getReturnScene(), null);
+                        this.mReturnScene, null);
                     break;
                 case KeyEvent.VK_ALT:
                     XCmdToChangeScene.execute(app, 
-                        this.mReturnScene, this.mReturnScene.getReturnScene());
+                        JMIOrganizeScenario.MoveReadyScene.getSingleton(), this.mReturnScene);
                     break;
             }
         }
@@ -211,7 +311,19 @@ public class JMIOrganizeScenario extends XScenario {
         public void renderScreenObjects(Graphics2D g2) {}
         
         @Override
-        public void getReady() {}
+        public void getReady() {
+            JMIApp app = (JMIApp)this.mScenario.getApp();
+            JMIPaintMgr paintMgr = app.getPaintMgr();
+            
+            JMIPaintMixable lastPaint = paintMgr.getLastPaint();
+            JMIPaintMixable overlap = paintMgr.getOverlap(lastPaint);
+            while (overlap != null) {
+                JMICmdToMixPaint.execute(app, lastPaint, overlap);
+
+                lastPaint = paintMgr.getLastPaint();
+                overlap = paintMgr.getOverlap(lastPaint);
+            }
+        }
         
         @Override
         public void wrapUp() {}
@@ -238,16 +350,56 @@ public class JMIOrganizeScenario extends XScenario {
         public void handleMousePress(MouseEvent e) {}
 
         @Override
-        public void handleMouseDrag(MouseEvent e) {}
+        public void handleMouseDrag(MouseEvent e) {
+            JMIApp app = (JMIApp)this.mScenario.getApp();
+            app.getBrush().setPt(e.getPoint());
+            Point pt = app.getBrush().getPt();
+
+            ArrayList<JMIPaintMixable> paints = app.getPaintMgr().getPaints();
+            JMIPaint paint = paints.get(paints.size() - 1);
+            if (paints.contains(paint)) {
+                JMICmdToMovePaint.execute(app, (JMIPaintMixable) paint);
+            }
+        }
 
         @Override
-        public void handleMouseRelease(MouseEvent e) {}
+        public void handleMouseRelease(MouseEvent e) {
+            JMIApp app = (JMIApp)this.mScenario.getApp();
+            app.getBrush().setPt(e.getPoint());
+            Point pt = app.getBrush().getPt();
+
+            ArrayList<JMIPaint> customPaints = app.getPaintMgr().getCustomPaints();
+            JMIPaint paint = app.getPaintMgr().getPaint(pt);
+            if (customPaints.contains(paint)) {
+                int index = customPaints.indexOf(paint);
+                Color c = app.getBrush().getColor();
+                JMICmdToSetPaintForCustomPalette.execute(app, index, c);
+                JMICmdToDeletedLastPaint.execute(app);
+            }
+
+            XCmdToChangeScene.execute(app, 
+                JMIOrganizeScenario.CopyReadyScene.getSingleton(), this.mReturnScene);
+        }
        
         @Override
         public void handleKeyDown(KeyEvent e) {}
 
         @Override
-        public void handleKeyUp(KeyEvent e) {}
+        public void handleKeyUp(KeyEvent e) {
+            JMIApp app = (JMIApp)this.mScenario.getApp();
+            int code = e.getKeyCode();
+            
+            switch(code) {
+                case KeyEvent.VK_CONTROL:
+                    XCmdToChangeScene.execute(app, 
+                        this.mReturnScene, null);
+                    break;
+                case KeyEvent.VK_ALT:
+                    XCmdToChangeScene.execute(app, 
+                        JMIOrganizeScenario.MoveReadyScene.getSingleton(), this.mReturnScene);
+                    break;
+            }
+        }
 
         @Override
         public void updateSupportObjects() {}
@@ -259,7 +411,14 @@ public class JMIOrganizeScenario extends XScenario {
         public void renderScreenObjects(Graphics2D g2) {}
         
         @Override
-        public void getReady() {}
+        public void getReady() {
+            JMIApp app = (JMIApp)this.mScenario.getApp();
+            Point pt = app.getBrush().getPt();
+            Color c = app.getPaintMgr().getPaint(pt).getColor();
+
+            JMICmdToCopyPaint.execute(app);
+            JMICmdToChangeColorForBrush.execute(app, c);
+        }
         
         @Override
         public void wrapUp() {}

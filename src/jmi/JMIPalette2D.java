@@ -36,11 +36,11 @@ public class JMIPalette2D extends JPanel{
         super.paintComponent(g);
         
         Graphics2D g2 = (Graphics2D)g;
-        
-        drawPaints(g2);
 
         drawBasicPaints(g2, mApp.getPalette2D().getWidth(), mApp.getPalette2D().getHeight());
         drawCustomPaints(g2, mApp.getPalette2D().getWidth(), mApp.getPalette2D().getHeight());
+
+        drawPaints(g2);
         
         drawBrush(g2);
         
@@ -71,8 +71,10 @@ public class JMIPalette2D extends JPanel{
 
         for (int i = 0; i < mApp.getPaintMgr().NUM_CUSTOM_COLOR; i++) {
             double x = delta * (double)i;
-            Rectangle2D rect = new Rectangle2D.Double(x, h - delta, x + delta, delta);
-            g2.setColor(mApp.getPaintMgr().getCustomPaints().get(i).getColor());
+            Rectangle2D rect = new Rectangle2D.Double(x, h - delta, x + delta, h);
+            JMIPaint paint = mApp.getPaintMgr().getCustomPaints().get(i);
+            if (paint.getColor() == null)   g2.setColor(new Color(255, 255, 255, 255));
+            else    g2.setColor(paint.getColor());
             g2.fill(rect);
         }
     }
