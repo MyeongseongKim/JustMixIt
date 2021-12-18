@@ -78,7 +78,7 @@ public class JMIPalette2D extends JPanel{
     }
     
     private void drawPaints(Graphics2D g2) {
-        for (JMILimitedPaint paint : mApp.getPaintMgr().getPaints()) {
+        for (JMIPaintMixable paint : mApp.getPaintMgr().getPaints()) {
             Color c = paint.getColor();
             Point2D ctr = paint.getPt();
             double r = paint.getRadius();

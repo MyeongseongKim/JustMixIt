@@ -14,8 +14,8 @@ public class JMIPaintMgr {
     // fields
     JMIApp mApp = null;
 
-    private ArrayList<JMILimitedPaint> mPaints = null;
-    public ArrayList<JMILimitedPaint> getPaints() {
+    private ArrayList<JMIPaintMixable> mPaints = null;
+    public ArrayList<JMIPaintMixable> getPaints() {
         return mPaints;
     }
 
@@ -31,10 +31,10 @@ public class JMIPaintMgr {
             float h = dh * (float) i;
             Color hsb = Color.getHSBColor(h, 0.95f, 0.95f);
             Color rgba = new Color(hsb.getRed(), hsb.getGreen(), hsb.getBlue(), 255);
-            mBasicPaints.add(new JMIUnlimitedPaint(rgba));
+            mBasicPaints.add(new JMIPaint(rgba));
         }
-        mBasicPaints.add(new JMIUnlimitedPaint(new Color(255, 255, 255, 255)));
-        mBasicPaints.add(new JMIUnlimitedPaint(new Color(0, 0, 0, 255)));
+        mBasicPaints.add(new JMIPaint(new Color(255, 255, 255, 255)));
+        mBasicPaints.add(new JMIPaint(new Color(0, 0, 0, 255)));
     }
 
     private ArrayList<JMIPaint> mCustomPaints = null;
@@ -47,8 +47,8 @@ public class JMIPaintMgr {
 	
     private void initCustomPaints() {
         for (int i = 0; i < NUM_CUSTOM_COLOR; i++) {
-//            mCustomPaints.add(new JMIUnlimitedPaint(null));
-            mCustomPaints.add(new JMIUnlimitedPaint(
+//            mCustomPaints.add(new JMIPaint(null));
+            mCustomPaints.add(new JMIPaint(
                 new Color((float) Math.random(), (float) Math.random(), (float) Math.random(), (float) Math.random())));
         }
     }
@@ -56,7 +56,7 @@ public class JMIPaintMgr {
     // constructor
     public JMIPaintMgr(JMIApp app) {
         this.mApp = app;
-        this.mPaints = new ArrayList<JMILimitedPaint>();
+        this.mPaints = new ArrayList<JMIPaintMixable>();
         this.mBasicPaints = new ArrayList<JMIPaint>();
         this.mCustomPaints = new ArrayList<JMIPaint>();
         setBasicPaints();
@@ -86,7 +86,7 @@ public class JMIPaintMgr {
         // }
         // On 
         else {
-            for(JMILimitedPaint paint : mPaints) {
+            for(JMIPaintMixable paint : mPaints) {
                 if (paint.isUnder(pt))  return paint;
             }
         }
@@ -103,9 +103,9 @@ public class JMIPaintMgr {
     }
 
     public int checkOverlap(int index) {
-        JMILimitedPaint p1 = mPaints.get(index);
+        JMIPaintMixable p1 = mPaints.get(index);
         for (int i = 0; i < mPaints.size(); i++) {
-            JMILimitedPaint p2 = mPaints.get(i);
+            JMIPaintMixable p2 = mPaints.get(i);
             if (p1 != p2) {
                 double r1 = p1.getRadius();
                 double r2 = p2.getRadius();

@@ -4,14 +4,14 @@ import java.awt.Color;
 import java.awt.Point;
 import jmi.JMIApp;
 import jmi.JMIBrush;
-import jmi.JMILimitedPaint;
+import jmi.JMIPaintMixable;
 import x.XApp;
 import x.XLoggableCmd;
 
 public class JMICmdToGeneratePaint extends XLoggableCmd {
     //field
     private JMIBrush mBrush = null;
-    private JMILimitedPaint mPaint = null;
+    private JMIPaintMixable mPaint = null;
     //private constructor
     private JMICmdToGeneratePaint(XApp app, JMIBrush brush) {
         super(app);
@@ -31,7 +31,7 @@ public class JMICmdToGeneratePaint extends XLoggableCmd {
         Color c = mBrush.getColor();
         Point pt = mBrush.getPt();
         double m = mBrush.getVolume();
-        mPaint = new JMILimitedPaint(c, pt, m);
+        mPaint = new JMIPaintMixable(c, pt, m);
         
         app.getPaintMgr().getPaints().add(mPaint);
         return true;

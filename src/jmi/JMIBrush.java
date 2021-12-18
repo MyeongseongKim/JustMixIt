@@ -61,7 +61,7 @@ public class JMIBrush {
     }
 
     public void updateVolume() {
-        double c = JMILimitedPaint.COEFFICENT_VALUE;
+        double c = JMIPaintMixable.COEFFICENT_VALUE;
         this.mCurMillis = System.currentTimeMillis();
         if (c > 0)
             this.mVolume += mCurMillis - mPrevMillis;

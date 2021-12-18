@@ -6,7 +6,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 import jmi.JMIApp;
-import jmi.JMILimitedPaint;
+import jmi.JMIPaintMixable;
 import jmi.JMIScene;
 import jmi.JMIPaint;
 import jmi.JMIPaintMgr;
@@ -205,8 +205,8 @@ public class JMIDefaultScenario extends XScenario {
                 for (int i = 0; i < paintMgr.getPaints().size(); i++) {
                     int j = paintMgr.checkOverlap(i);
                     if (j != -1) {
-                        JMILimitedPaint p1 = paintMgr.getPaints().get(i);
-                        JMILimitedPaint p2 = paintMgr.getPaints().get(j);
+                        JMIPaintMixable p1 = paintMgr.getPaints().get(i);
+                        JMIPaintMixable p2 = paintMgr.getPaints().get(j);
                         JMICmdToMixPaint.execute(app, p1, p2);
                         return;
                     }

@@ -11,7 +11,6 @@ import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
 import jmi.JMIApp;
 import jmi.JMIPaint;
-import jmi.JMIUnlimitedPaint;
 import x.XApp;
 import x.XLoggableCmd;
 
@@ -60,9 +59,9 @@ public class JMICmdToOpenPalette extends XLoggableCmd {
 					String line;
 					while ((line = bufReader.readLine()) != null) {
 						if ("null".equals(line)) {
-							customPaints.add(new JMIUnlimitedPaint(null));
+							customPaints.add(new JMIPaint(null));
 						} else {
-							customPaints.add(new JMIUnlimitedPaint(new Color(
+							customPaints.add(new JMIPaint(new Color(
 								Integer.parseInt(line.substring(0, 2), 16),
 								Integer.parseInt(line.substring(2, 4), 16),
 								Integer.parseInt(line.substring(4, 6), 16),

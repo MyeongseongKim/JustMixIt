@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Point;
 import java.awt.geom.Point2D;
 
-public class JMILimitedPaint extends JMIPaint{
+public class JMIPaintMixable extends JMIPaint{
     // constants
     public static final double COEFFICENT_VALUE = 0.5;
 
@@ -31,7 +31,7 @@ public class JMILimitedPaint extends JMIPaint{
     }
 
     // constructor
-    public JMILimitedPaint(Color c, Point2D pt, double m) {
+    public JMIPaintMixable(Color c, Point2D pt, double m) {
         super(c);
         this.mPt = pt;
         this.mVolume = m;
@@ -46,7 +46,7 @@ public class JMILimitedPaint extends JMIPaint{
     }
 
     // static methods
-    public static JMILimitedPaint mix(JMILimitedPaint p1, JMILimitedPaint p2) {
+    public static JMIPaintMixable mix(JMIPaintMixable p1, JMIPaintMixable p2) {
         float[] c1 = p1.getColor().getRGBComponents(null);
         float[] c2 = p2.getColor().getRGBComponents(null);
 
@@ -70,7 +70,7 @@ public class JMILimitedPaint extends JMIPaint{
         float a = (float) (i / v);
         Color c = new Color(r, g, b, a);
 
-        JMILimitedPaint paint = new JMILimitedPaint(c, pt, v);
+        JMIPaintMixable paint = new JMIPaintMixable(c, pt, v);
         return paint;
     }
 }
