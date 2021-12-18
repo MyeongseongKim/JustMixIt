@@ -1,7 +1,6 @@
 package jmi.scenario;
 
 import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
@@ -11,6 +10,12 @@ import jmi.JMIScene;
 import jmi.cmd.JMICmdToIncreasePaintVolumeForBrush;
 import jmi.cmd.JMICmdToGeneratePaint;
 import jmi.cmd.JMICmdToInitBrush;
+
+import jsi.JSIApp;
+import jsi.scenario.JSIDefaultScenario;
+import jsi.scenario.JSISelectScenario;
+import jsi.cmd.JSICmdToChangeColorForCurPtCurve;
+import jsi.cmd.JSICmdToChangeColorForSelectedPtCurves;
 
 import x.XApp;
 import x.XScenario;
@@ -63,12 +68,27 @@ public class JMIColorScenario extends XScenario {
         public void handleMouseDrag(MouseEvent e) {
             JMIApp app = (JMIApp)this.mScenario.getApp();
 
-            JMICmdToIncreasePaintVolumeForBrush.execute(app, 0.5);
+            JMICmdToIncreasePaintVolumeForBrush.execute(app);
         }
 
         @Override
         public void handleMouseRelease(MouseEvent e) {
             JMIApp app = (JMIApp)this.mScenario.getApp();
+
+            JSIApp jsi = (JSIApp)app.getApp();
+            if (jsi.getScenarioMgr().getCurScene() == 
+                JSIDefaultScenario.ReadyScene.getSingleton()) {
+
+                JSICmdToChangeColorForCurPtCurve.execute(jsi, 
+                    app.getBrush().getColor());
+            }
+            else if (jsi.getScenarioMgr().getCurScene() == 
+                JSISelectScenario.SelectedReadyScene.getSingleton()) {
+                
+                JSICmdToChangeColorForSelectedPtCurves.execute(jsi, 
+                    app.getBrush().getColor());
+            }
+            jsi.getCanvas2D().repaint();
 
             XCmdToChangeScene.execute(app, 
                 this.mReturnScene, this.mReturnScene.getReturnScene());

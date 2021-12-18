@@ -1,6 +1,5 @@
 package jmi.cmd;
 
-import java.awt.Color;
 import jmi.JMIApp;
 import x.XApp;
 import x.XLoggableCmd;

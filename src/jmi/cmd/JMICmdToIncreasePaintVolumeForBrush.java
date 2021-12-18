@@ -5,17 +5,14 @@ import x.XApp;
 import x.XLoggableCmd;
 
 public class JMICmdToIncreasePaintVolumeForBrush extends XLoggableCmd {
-    //field
-    private double mCoefficient = Double.NaN;
     //private constructor
-    private JMICmdToIncreasePaintVolumeForBrush(XApp app, double c) {
+    private JMICmdToIncreasePaintVolumeForBrush(XApp app) {
         super(app);
-        this.mCoefficient = c;
     }
     
-    public static boolean execute(XApp app, double c) {
+    public static boolean execute(XApp app) {
         JMICmdToIncreasePaintVolumeForBrush cmd = 
-            new JMICmdToIncreasePaintVolumeForBrush(app, c);
+            new JMICmdToIncreasePaintVolumeForBrush(app);
         return cmd.execute();
     }
     
