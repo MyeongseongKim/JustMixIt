@@ -1,6 +1,7 @@
 package jmi;
 
 import jmi.scenario.JMIDefaultScenario;
+import jmi.scenario.JMIOrganizeScenario;
 import jmi.scenario.JMIColorScenario;
 
 import x.XScenarioMgr;
@@ -14,6 +15,7 @@ public class JMIScenarioMgr extends XScenarioMgr{
     protected void addScenarios() {
         this.mScenarios.add(JMIDefaultScenario.createSingleton(this.mApp));
         this.mScenarios.add(JMIColorScenario.createSingleton(this.mApp));
+        this.mScenarios.add(JMIOrganizeScenario.createSingleton(this.mApp));
     }
 
     @Override

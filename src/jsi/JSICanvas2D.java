@@ -23,8 +23,8 @@ public class JSICanvas2D extends JPanel {
     public static final Color COLOR_SELECTION_BOX = new Color(255, 0, 0, 64);
     public static final Color COLOR_CROSSHAIR = new Color(255, 0, 0, 64);
     private static final Color COLOR_INFO = new Color(255, 0, 0, 128);
-    private static final Stroke STROKE_PT_CURVE_DEFAULT = new BasicStroke(5.0f,
-            BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
+    private static final Stroke STROKE_PT_CURVE_DEFAULT = 
+        new BasicStroke(5.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
     private static final Stroke STROKE_SELECTED_PT_CURVE = new BasicStroke(5.0f);
     public static final Stroke STROKE_SELECTION_BOX = new BasicStroke(5.0f);
     public static final Stroke STROKE_CROSSHAIR = new BasicStroke(5.0f);

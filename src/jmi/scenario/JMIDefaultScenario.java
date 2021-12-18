@@ -10,17 +10,12 @@ import jmi.JMIScene;
 import jmi.JMIPaint;
 import jmi.JMIPaintMgr;
 
-import jsi.JSIApp;
-import jsi.scenario.JSIDefaultScenario;
-import jsi.scenario.JSISelectScenario;
-
 import jmi.cmd.JMICmdToInitBrush;
 import jmi.cmd.JMICmdToMixPaint;
 import jmi.cmd.JMICmdToChangeColorForBrush;
+import jmi.cmd.JMICmdToCleanPalette;
 import jmi.cmd.JMICmdToOpenPalette;
 import jmi.cmd.JMICmdToSavePalette;
-import jsi.cmd.JSICmdToChangeColorForCurPtCurve;
-import jsi.cmd.JSICmdToChangeColorForSelectedPtCurves;
 
 import x.XApp;
 import x.XScenario;
@@ -156,6 +151,13 @@ public class JMIDefaultScenario extends XScenario {
                 case KeyEvent.VK_S:
                     JMICmdToSavePalette.execute(app);
                     break;
+                case KeyEvent.VK_DELETE:
+                    JMICmdToCleanPalette.execute(app);
+                    break;
+                case KeyEvent.VK_CONTROL:
+                    XCmdToChangeScene.execute(app, 
+                        JMIOrganizeScenario.MoveReadyScene.getSingleton(), this);
+                    break;
             }
 		}
 
@@ -166,7 +168,8 @@ public class JMIDefaultScenario extends XScenario {
             
             switch(code) {
                 case KeyEvent.VK_C:
-                    XCmdToChangeScene.execute(app, this.mReturnScene, null);
+                    XCmdToChangeScene.execute(app, 
+                        StandbyScene.getSingleton(), this);
                     break;
             }
         }

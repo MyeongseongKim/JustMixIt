@@ -117,13 +117,14 @@ public class JSIDefaultScenario extends XScenario {
                         
                         XCmdToChangeScene.execute(jmi, 
                             JMIDefaultScenario.ReadyScene.getSingleton(), 
-                            JMIDefaultScenario.StandbyScene.getSingleton());
+                            null);
                     }
                     else if (jmi.getScenarioMgr().getCurScene() == 
                         JMIDefaultScenario.ReadyScene.getSingleton()) {
                         
                         XCmdToChangeScene.execute(jmi, 
-                            JMIDefaultScenario.StandbyScene.getSingleton(), null);
+                            JMIDefaultScenario.StandbyScene.getSingleton(),
+                            JMIDefaultScenario.ReadyScene.getSingleton());
                     }
                     break;
             }
