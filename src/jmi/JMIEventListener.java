@@ -16,7 +16,7 @@ public class JMIEventListener implements MouseListener, MouseMotionListener, Key
     
     @Override
     public void mousePressed(MouseEvent e) {
-        this.mApp.getBrush().setPt(e.getPoint());
+        // this.mApp.getBrush().setPt(e.getPoint());
         if (this.mApp.getBrushMarkMgr().mousePressed(e)) {
             JMIScene curScene = (JMIScene) this.mApp.getScenarioMgr().getCurScene();
             curScene.handleMousePress(e);
@@ -26,7 +26,7 @@ public class JMIEventListener implements MouseListener, MouseMotionListener, Key
     
     @Override
     public void mouseDragged(MouseEvent e) {
-        this.mApp.getBrush().setPt(e.getPoint());
+        // this.mApp.getBrush().setPt(e.getPoint());
         if (this.mApp.getBrushMarkMgr().mouseDragged(e)) {
             JMIScene curScene = (JMIScene) this.mApp.getScenarioMgr().getCurScene();
             curScene.handleMouseDrag(e);
@@ -36,7 +36,7 @@ public class JMIEventListener implements MouseListener, MouseMotionListener, Key
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        this.mApp.getBrush().setPt(e.getPoint());
+        // this.mApp.getBrush().setPt(e.getPoint());
         if (this.mApp.getBrushMarkMgr().mouseReleased(e)) {
             JMIScene curScene = (JMIScene) this.mApp.getScenarioMgr().getCurScene();
             curScene.handleMouseRelease(e);

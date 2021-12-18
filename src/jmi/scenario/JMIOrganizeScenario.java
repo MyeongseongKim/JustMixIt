@@ -54,7 +54,10 @@ public class JMIOrganizeScenario extends XScenario {
         }
 
         @Override
-        public void handleMousePress(MouseEvent e) {}
+        public void handleMousePress(MouseEvent e) {
+            JMIApp app = (JMIApp)this.mScenario.getApp();
+            app.getBrush().setPt(e.getPoint());
+        }
 
         @Override
         public void handleMouseDrag(MouseEvent e) {}

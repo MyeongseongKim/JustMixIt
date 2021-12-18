@@ -118,26 +118,33 @@ public class JMIDefaultScenario extends XScenario {
         @Override
         public void handleMousePress(MouseEvent e) {
             JMIApp app = (JMIApp) this.mScenario.getApp();
+            app.getBrush().setPt(e.getPoint());
 
             JMIPaint paint = app.getPaintMgr().getPaint(app.getBrush().getPt());
-            if (paint != null && app.getBrush().getVolume() == 0) {
+            if (paint != null) {
                 if (paint.getColor() != app.getBrush().getColor())
                     JMICmdToInitBrush.execute(app);
                 JMICmdToChangeColorForBrush.execute(app, paint.getColor());
                 XCmdToChangeScene.execute(app, 
                     JMIColorScenario.PaintSelectScene.getSingleton(), this);
             }
-            else {
-                XCmdToChangeScene.execute(app, 
-                    JMIColorScenario.PaintGenerateScene.getSingleton(), this);
-            }
+            // else if (app.getBrush().getVolume() != 0) {
+            //     XCmdToChangeScene.execute(app, 
+            //         JMIColorScenario.PaintGenerateScene.getSingleton(), this);
+            // }
         }
 
         @Override
-        public void handleMouseDrag(MouseEvent e) {}
+        public void handleMouseDrag(MouseEvent e) {
+            JMIApp app = (JMIApp) this.mScenario.getApp();
+            app.getBrush().setPt(e.getPoint());
+        }
 
         @Override
-        public void handleMouseRelease(MouseEvent e) {}
+        public void handleMouseRelease(MouseEvent e) {
+            JMIApp app = (JMIApp) this.mScenario.getApp();
+            app.getBrush().setPt(e.getPoint());
+        }
        
         @Override
         public void handleKeyDown(KeyEvent e) {

@@ -5,11 +5,13 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 import jmi.JMIApp;
+import jmi.JMIPaint;
 import jmi.JMIScene;
 
 import jmi.cmd.JMICmdToIncreasePaintVolumeForBrush;
 import jmi.cmd.JMICmdToGeneratePaint;
 import jmi.cmd.JMICmdToInitBrush;
+import jmi.cmd.JMICmdToChangeColorForBrush;
 
 import jsi.JSIApp;
 import jsi.scenario.JSIDefaultScenario;
@@ -67,6 +69,7 @@ public class JMIColorScenario extends XScenario {
         @Override
         public void handleMouseDrag(MouseEvent e) {
             JMIApp app = (JMIApp)this.mScenario.getApp();
+            app.getBrush().setPt(e.getPoint());
 
             JMICmdToIncreasePaintVolumeForBrush.execute(app);
         }
@@ -74,6 +77,7 @@ public class JMIColorScenario extends XScenario {
         @Override
         public void handleMouseRelease(MouseEvent e) {
             JMIApp app = (JMIApp)this.mScenario.getApp();
+            app.getBrush().setPt(e.getPoint());
 
             JSIApp jsi = (JSIApp)app.getApp();
             if (jsi.getScenarioMgr().getCurScene() == 
@@ -91,7 +95,7 @@ public class JMIColorScenario extends XScenario {
             jsi.getCanvas2D().repaint();
 
             XCmdToChangeScene.execute(app, 
-                this.mReturnScene, this.mReturnScene.getReturnScene());
+                PaintGenerateScene.getSingleton(), this);
         }
        
         @Override
@@ -134,19 +138,36 @@ public class JMIColorScenario extends XScenario {
         }
 
         @Override
-        public void handleMousePress(MouseEvent e) {}
+        public void handleMousePress(MouseEvent e) {
+            JMIApp app = (JMIApp)this.mScenario.getApp();
+            app.getBrush().setPt(e.getPoint());
+
+            JMIPaint paint = app.getPaintMgr().getPaint(app.getBrush().getPt());
+            if (paint != null) {
+                if (paint.getColor() != app.getBrush().getColor())
+                    JMICmdToInitBrush.execute(app);
+                JMICmdToChangeColorForBrush.execute(app, paint.getColor());
+                XCmdToChangeScene.execute(app, 
+                    JMIColorScenario.PaintSelectScene.getSingleton(), this);
+            }
+        }
 
         @Override
-        public void handleMouseDrag(MouseEvent e) {}
+        public void handleMouseDrag(MouseEvent e) {
+            JMIApp app = (JMIApp)this.mScenario.getApp();
+            app.getBrush().setPt(e.getPoint());
+        }
 
         @Override
         public void handleMouseRelease(MouseEvent e) {
             JMIApp app = (JMIApp)this.mScenario.getApp();
+            app.getBrush().setPt(e.getPoint());
+
             JMICmdToGeneratePaint.execute(app, app.getBrush());
             JMICmdToInitBrush.execute(app);
 
             XCmdToChangeScene.execute(app, 
-                this.mReturnScene, this.mReturnScene.getReturnScene());
+                JMIDefaultScenario.ReadyScene.getSingleton(), null);
         }
        
         @Override
