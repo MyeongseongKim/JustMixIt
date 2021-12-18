@@ -15,6 +15,8 @@ import jsi.scenario.JSISelectScenario;
 
 import jmi.cmd.JMICmdToInitBrush;
 import jmi.cmd.JMICmdToChangeColorForBrush;
+import jmi.cmd.JMICmdToOpenPalette;
+import jmi.cmd.JMICmdToSavePalette;
 import jsi.cmd.JSICmdToChangeColorForCurPtCurve;
 import jsi.cmd.JSICmdToChangeColorForSelectedPtCurves;
 
@@ -142,7 +144,19 @@ public class JMIDefaultScenario extends XScenario {
         public void handleMouseRelease(MouseEvent e) {}
        
         @Override
-        public void handleKeyDown(KeyEvent e) {}
+        public void handleKeyDown(KeyEvent e) {
+            JMIApp app = (JMIApp)this.mScenario.getApp();
+            int code = e.getKeyCode();
+            
+            switch(code) {
+                case KeyEvent.VK_O:
+                    JMICmdToOpenPalette.execute(app);
+                    break;
+                case KeyEvent.VK_S:
+                    JMICmdToSavePalette.execute(app);
+                    break;
+            }
+		}
 
         @Override
         public void handleKeyUp(KeyEvent e) {

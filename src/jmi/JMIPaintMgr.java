@@ -41,9 +41,14 @@ public class JMIPaintMgr {
     public ArrayList<JMIPaint> getCustomPaints() {
         return mCustomPaints;
     }
-    private void setCustomPaints() {
+    public void setCustomPaints(ArrayList<JMIPaint> customPaints) {
+        mCustomPaints = customPaints;
+    }
+	
+    private void initCustomPaints() {
         for (int i = 0; i < NUM_CUSTOM_COLOR; i++) {
-            mCustomPaints.add(new JMIUnlimitedPaint(null));
+//            mCustomPaints.add(new JMIUnlimitedPaint(null));
+            mCustomPaints.add(new JMIUnlimitedPaint(new Color((float) Math.random(), (float) Math.random(), (float) Math.random(), (float) Math.random())));
         }
     }
 
@@ -54,7 +59,7 @@ public class JMIPaintMgr {
         this.mBasicPaints = new ArrayList<JMIPaint>();
         this.mCustomPaints = new ArrayList<JMIPaint>();
         setBasicPaints();
-        setCustomPaints();
+        initCustomPaints();
     }
 
     // methods

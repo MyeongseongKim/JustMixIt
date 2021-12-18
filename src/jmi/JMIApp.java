@@ -15,6 +15,9 @@ public class JMIApp extends XApp {
     }
 
     private JFrame mFrame = null;
+	public JFrame getFrame() {
+        return this.mFrame;
+    }
 
     private JMIPalette2D mPalette2D = null;
     public JMIPalette2D getPalette2D() {

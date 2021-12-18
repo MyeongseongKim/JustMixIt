@@ -5,7 +5,7 @@ import java.awt.Point;
 
 public class JMIUnlimitedPaint extends JMIPaint{
     
-    protected JMIUnlimitedPaint(Color c) {
+    public JMIUnlimitedPaint(Color c) {
         super(c);
     }
 }
