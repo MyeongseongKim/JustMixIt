@@ -6,7 +6,7 @@ import java.awt.Point;
 
 public class JMIBrush {
     // constants
-    public static final Color COLOR_DEFAULT = new Color(0, 0, 0, 192);
+    public static final Color COLOR_DEFAULT = new Color(0, 0, 0, 191);
 
     // fields  
     private Point mPt = null;

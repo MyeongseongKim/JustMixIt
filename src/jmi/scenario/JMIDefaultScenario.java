@@ -122,12 +122,10 @@ public class JMIDefaultScenario extends XScenario {
             Point pt = e.getPoint();
 
             JMIPaint paint = app.getPaintMgr().getPaint(app.getBrush().getPt());
-            if (paint != null) {
-                if (paint.getColor() != null) {
-                    if (paint.getColor() != app.getBrush().getColor())
-                        JMICmdToInitBrush.execute(app);
-                    JMICmdToChangeColorForBrush.execute(app, paint.getColor());
-                }
+            if (paint != null && paint.getColor() != null) {
+                if (paint.getColor() != app.getBrush().getColor())
+                    JMICmdToInitBrush.execute(app);
+                JMICmdToChangeColorForBrush.execute(app, paint.getColor());
                 XCmdToChangeScene.execute(app, 
                     JMIColorScenario.PaintSelectScene.getSingleton(), this);
             }

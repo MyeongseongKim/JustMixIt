@@ -37,13 +37,13 @@ public class JMIPalette2D extends JPanel{
         
         Graphics2D g2 = (Graphics2D)g;
         
-        drawBasicPaints(g2, mApp.getPalette2D().getWidth(), mApp.getPalette2D().getHeight());
-        drawCustomPaints(g2, mApp.getPalette2D().getWidth(), mApp.getPalette2D().getHeight());
-
         drawPaints(g2);
 
+        drawBasicPaints(g2, mApp.getPalette2D().getWidth(), mApp.getPalette2D().getHeight());
+        drawCustomPaints(g2, mApp.getPalette2D().getWidth(), mApp.getPalette2D().getHeight());
+        
         drawBrush(g2);
-
+        
         drawInfo(g2);
     }
 

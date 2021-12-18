@@ -64,17 +64,28 @@ public class JMIPaintMgr {
         double deltaBasic = (double)width / NUM_BASIC_COLOR;
         double deltaCustom = (double)width / NUM_CUSTOM_COLOR;
 
+        // On basic paints
         if (pt.y < deltaBasic) {
             int index = (int) Math.floor(pt.x / deltaBasic);
             return mBasicPaints.get(index);
         }
+        // On custom paints
         else if (pt.y > height - deltaCustom) {
             int index = (int) Math.floor(pt.x / deltaCustom);
             return mCustomPaints.get(index);
         }
+        // On water
+        // else if () {
+
+        // }
+        // On 
         else {
 
         }
         return null;
+    }
+
+    public void updatePaints() {
+        
     }
 }
