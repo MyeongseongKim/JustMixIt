@@ -24,7 +24,7 @@ public class JMIPalette2D extends JPanel{
     private static final Color COLOR_PALETTE = new Color(223, 223, 223, 255);
     private static final BasicStroke STROKE_PALETTE = new BasicStroke(2.5f);
     private static final Color COLOR_WATER = new Color(0, 127, 255, 31);
-    private static final Color COLOR_WATERMARK = new Color(0, 63, 127, 63);
+    public static final Color COLOR_WATERMARK = new Color(0, 63, 127, 63);
     private static final BasicStroke STROKE_WATERMARK = new BasicStroke(1.0f);
 
     // fields

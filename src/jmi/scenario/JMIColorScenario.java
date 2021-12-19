@@ -193,6 +193,18 @@ public class JMIColorScenario extends XScenario {
             if (app.getPaintMgr().getPaints().contains(paint)) {
                 JMICmdToMixPaintDynamically.execute(app, (JMIPaintMixable) paint);
             }
+
+            // Check overlaps.
+            // If paints are overlaped, mix them.
+            JMIPaintMgr paintMgr = app.getPaintMgr();
+            JMIPaintMixable lastPaint = paintMgr.getLastPaint();
+            JMIPaintMixable overlap = paintMgr.getOverlap(lastPaint);
+            while (overlap != null) {
+                JMICmdToMixPaint.execute(app, lastPaint, overlap);
+
+                lastPaint = paintMgr.getLastPaint();
+                overlap = paintMgr.getOverlap(lastPaint);
+            }
         }
 
         @Override
@@ -200,9 +212,10 @@ public class JMIColorScenario extends XScenario {
             JMIApp app = (JMIApp)this.mScenario.getApp();
             app.getBrush().setPt(e.getPoint());
             Point pt = app.getBrush().getPt();
-            Color c = app.getPaintMgr().getPaint(pt).getColor();
 
-            if (c != null) {
+            JMIPaint paint = app.getPaintMgr().getPaint(pt);
+            if (paint != null) {
+                Color c = paint.getColor();
                 JMICmdToChangeColorForBrush.execute(app, c);
             }
             JMICmdToChooseColorForJSI.execute(app);

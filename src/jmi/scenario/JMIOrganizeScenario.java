@@ -7,6 +7,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Ellipse2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.awt.RadialGradientPaint;
 import java.util.ArrayList;
 
 import jmi.JMIApp;
@@ -19,11 +20,11 @@ import jmi.cmd.JMICmdToChangeColorForBrush;
 import jmi.cmd.JMICmdToPickPaint;
 import jmi.cmd.JMICmdToRemovePickedPaint;
 import jmi.cmd.JMICmdToCopyPaint;
-import jmi.cmd.JMICmdToDeletedLastPaint;
 import jmi.cmd.JMICmdToMixPaint;
 import jmi.cmd.JMICmdToMovePaint;
 import jmi.cmd.JMICmdToSetPaintForCustomPalette;
 import jmi.cmd.JMICmdToSetPickedPaint;
+
 import x.XApp;
 import x.XScenario;
 import x.XCmdToChangeScene;
@@ -193,7 +194,7 @@ public class JMIOrganizeScenario extends XScenario {
                 int index = customPaints.indexOf(paint);
                 Color c = app.getBrush().getColor();
                 JMICmdToSetPaintForCustomPalette.execute(app, index, c);
-                JMICmdToDeletedLastPaint.execute(app);
+                JMICmdToRemovePickedPaint.execute(app);
             }
             else {
                 JMICmdToRemovePickedPaint.execute(app);
@@ -253,7 +254,9 @@ public class JMIOrganizeScenario extends XScenario {
         @Override
         public void wrapUp() {
             JMIApp app = (JMIApp)this.mScenario.getApp();
-            JMICmdToSetPickedPaint.execute(app);
+            if (app.getPaintMgr().getPickedPaint() != null) {
+                JMICmdToSetPickedPaint.execute(app);
+            }
         }
     }
 
@@ -391,7 +394,7 @@ public class JMIOrganizeScenario extends XScenario {
                 int index = customPaints.indexOf(paint);
                 Color c = app.getBrush().getColor();
                 JMICmdToSetPaintForCustomPalette.execute(app, index, c);
-                JMICmdToDeletedLastPaint.execute(app);
+                JMICmdToRemovePickedPaint.execute(app);
             }
             else {
                 JMICmdToRemovePickedPaint.execute(app);
@@ -445,7 +448,9 @@ public class JMIOrganizeScenario extends XScenario {
         @Override
         public void wrapUp() {
             JMIApp app = (JMIApp)this.mScenario.getApp();
-            JMICmdToSetPickedPaint.execute(app);
+            if (app.getPaintMgr().getPickedPaint() != null) {
+                JMICmdToSetPickedPaint.execute(app);
+            }
         }
     }
 
@@ -463,5 +468,17 @@ public class JMIOrganizeScenario extends XScenario {
         Ellipse2D e = new Ellipse2D.Double(ctr.getX() - r, ctr.getY() - r, 2*r, 2*r);
         g2.setColor(c);
         g2.fill(e);
+
+        if (c.getAlpha() == 0) {
+            // final Color COLOR_WATERMARK = new Color(0, 63, 127, 63);
+            float[] dist = {0.0f, 0.5f, 1.0f};
+            // Color[] colors = {Color.WHITE, Color.WHITE, COLOR_WATERMARK};
+            Color[] colors = {Color.WHITE, Color.WHITE, app.getPalette2D().COLOR_WATERMARK};
+            RadialGradientPaint p =
+                new RadialGradientPaint(ctr, (float) r, dist, colors);
+
+            g2.setPaint(p);
+            g2.fill(e);
+        }
     }
 }
