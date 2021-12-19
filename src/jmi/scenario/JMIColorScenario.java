@@ -205,9 +205,13 @@ public class JMIColorScenario extends XScenario {
         public void handleMouseRelease(MouseEvent e) {
             JMIApp app = (JMIApp)this.mScenario.getApp();
             app.getBrush().setPt(e.getPoint());
+            Point pt = app.getBrush().getPt();
+            Color c = app.getPaintMgr().getPaint(pt).getColor();
 
             // JMICmdToGeneratePaint.execute(app, app.getBrush());
             // JMICmdToInitBrush.execute(app);
+
+            JMICmdToChangeColorForBrush.execute(app, c);
 
             XCmdToChangeScene.execute(app, 
                 JMIDefaultScenario.ReadyScene.getSingleton(), null);

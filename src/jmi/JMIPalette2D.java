@@ -6,11 +6,13 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.awt.Color;
+import java.awt.BasicStroke;
 import java.awt.Font;
 import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.Ellipse2D;
+import java.awt.RadialGradientPaint;
 
 
 public class JMIPalette2D extends JPanel{
@@ -18,6 +20,12 @@ public class JMIPalette2D extends JPanel{
     private static final Font FONT_INFO = new Font("Monospaced", Font.PLAIN, 24);
     private static final Color COLOR_INFO = new Color(255, 0, 0, 128);
     private static final double BRUSH_SIZE = 10.0;
+
+    private static final Color COLOR_PALETTE = new Color(223, 223, 223, 255);
+    private static final BasicStroke STROKE_PALETTE = new BasicStroke(2.5f);
+    private static final Color COLOR_WATER = new Color(0, 127, 255, 31);
+    private static final Color COLOR_WATERMARK = new Color(0, 63, 127, 63);
+    private static final BasicStroke STROKE_WATERMARK = new BasicStroke(1.0f);
 
     // fields
     private JMIApp mApp = null;
@@ -39,6 +47,7 @@ public class JMIPalette2D extends JPanel{
 
         drawBasicPaints(g2, mApp.getPalette2D().getWidth(), mApp.getPalette2D().getHeight());
         drawCustomPaints(g2, mApp.getPalette2D().getWidth(), mApp.getPalette2D().getHeight());
+        drawWater(g2, mApp.getPalette2D().getWidth(), mApp.getPalette2D().getHeight());
 
         drawPaints(g2);
         
@@ -48,35 +57,58 @@ public class JMIPalette2D extends JPanel{
     }
 
     private void drawBasicPaints(Graphics2D g2, int w, int h) {
-        double delta = (double)w / mApp.getPaintMgr().NUM_BASIC_COLOR;
+        double delta = (double)w / JMIPaintMgr.NUM_BASIC_COLOR;
 
         Rectangle2D background = new Rectangle2D.Double(0, 0, w, delta);
         g2.setColor(new Color(255, 255, 255, 255));
         g2.fill(background);
 
-        for (int i = 0; i < mApp.getPaintMgr().NUM_BASIC_COLOR; i++) {
+        for (int i = 0; i < JMIPaintMgr.NUM_BASIC_COLOR; i++) {
             double x = delta * (double)i;
             Rectangle2D rect = new Rectangle2D.Double(x, 0, x + delta, delta);
             g2.setColor(mApp.getPaintMgr().getBasicPaints().get(i).getColor());
             g2.fill(rect);
+
+            g2.setColor(COLOR_PALETTE);
+            g2.setStroke(STROKE_PALETTE);
+            g2.draw(rect);
         }
     }
 
     private void drawCustomPaints(Graphics2D g2, int w, int h) {
-        double delta = (double)w / mApp.getPaintMgr().NUM_CUSTOM_COLOR;
+        double delta = (double)w / JMIPaintMgr.NUM_CUSTOM_COLOR;
 
         Rectangle2D background = new Rectangle2D.Double(0, h - delta, w, h);
         g2.setColor(new Color(255, 255, 255, 255));
         g2.fill(background);
 
-        for (int i = 0; i < mApp.getPaintMgr().NUM_CUSTOM_COLOR; i++) {
+        for (int i = 0; i < JMIPaintMgr.NUM_CUSTOM_COLOR; i++) {
             double x = delta * (double)i;
             Rectangle2D rect = new Rectangle2D.Double(x, h - delta, x + delta, h);
             JMIPaint paint = mApp.getPaintMgr().getCustomPaints().get(i);
             if (paint.getColor() == null)   g2.setColor(new Color(255, 255, 255, 255));
             else    g2.setColor(paint.getColor());
             g2.fill(rect);
+
+            g2.setColor(COLOR_PALETTE);
+            g2.setStroke(STROKE_PALETTE);
+            g2.draw(rect);
         }
+    }
+
+    private void drawWater(Graphics2D g2, int w, int h) {
+        double delta = (double)w / JMIPaintMgr.NUM_CUSTOM_COLOR;
+        Point2D ctr = 
+            new Point2D.Double(w - JMIPaintMgr.RATIO_X * delta, h - JMIPaintMgr.RATIO_Y * delta);
+        double r = JMIPaintMgr.RATIO_R * delta;
+
+        Ellipse2D e = new Ellipse2D.Double(ctr.getX() - r, ctr.getY() - r, 2*r, 2*r);
+        g2.setColor(COLOR_WATER);
+        g2.fill(e);
+
+        g2.setColor(COLOR_PALETTE);
+        g2.setStroke(STROKE_PALETTE);
+        g2.draw(e);
     }
     
     private void drawPaints(Graphics2D g2) {
@@ -88,6 +120,16 @@ public class JMIPalette2D extends JPanel{
             Ellipse2D e = new Ellipse2D.Double(ctr.getX() - r, ctr.getY() - r, 2*r, 2*r);
             g2.setColor(c);
             g2.fill(e);
+
+            if (c.getAlpha() == 0) {
+                float[] dist = {0.0f, 0.5f, 1.0f};
+                Color[] colors = {Color.WHITE, Color.WHITE, COLOR_WATERMARK};
+                RadialGradientPaint p =
+                    new RadialGradientPaint(ctr, (float) r, dist, colors);
+
+                g2.setPaint(p);
+                g2.fill(e);
+            } 
         }
     }
 
@@ -104,6 +146,20 @@ public class JMIPalette2D extends JPanel{
         Ellipse2D e = new Ellipse2D.Double(ctr.x - r, ctr.y - r, 2*r, 2*r);
         g2.setColor(c);
         g2.fill(e);
+
+        if (c.getAlpha() == 0) {
+            // g2.setColor(COLOR_WATERMARK);
+            // g2.setStroke(STROKE_WATERMARK);
+            // g2.draw(e);
+
+            float[] dist = {0.0f, 0.5f, 1.0f};
+            Color[] colors = {Color.WHITE, Color.WHITE, COLOR_WATERMARK};
+            RadialGradientPaint p =
+                new RadialGradientPaint(ctr, (float) r, dist, colors);
+
+            g2.setPaint(p);
+            g2.fill(e);
+        } 
     }
 
     private void drawInfo(Graphics2D g2) {

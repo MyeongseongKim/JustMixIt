@@ -4,12 +4,16 @@ import java.util.ArrayList;
 
 import java.awt.Color;
 import java.awt.Point;
+import java.awt.geom.Point2D;
 
 
 public class JMIPaintMgr {
     // constants
-    public final int NUM_BASIC_COLOR = 20;
-    public final int NUM_CUSTOM_COLOR = 20;
+    public final static int NUM_BASIC_COLOR = 20;
+    public final static int NUM_CUSTOM_COLOR = 20;
+    public final static double RATIO_X = 1.5;
+    public final static double RATIO_Y = 2.5;
+    public final static double RATIO_R = 1.0;
 
     // fields
     JMIApp mApp = null;
@@ -44,11 +48,15 @@ public class JMIPaintMgr {
     public void setCustomPaints(ArrayList<JMIPaint> customPaints) {
         mCustomPaints = customPaints;
     }
-	
     private void initCustomPaints() {
         for (int i = 0; i < NUM_CUSTOM_COLOR; i++) {
             mCustomPaints.add(new JMIPaint(null));
         }
+    }
+
+    private JMIPaint mWater = null;
+    public JMIPaint getWater() {
+        return mWater;
     }
 
     // constructor
@@ -57,6 +65,7 @@ public class JMIPaintMgr {
         this.mPaints = new ArrayList<JMIPaintMixable>();
         this.mBasicPaints = new ArrayList<JMIPaint>();
         this.mCustomPaints = new ArrayList<JMIPaint>();
+        this.mWater = new JMIPaint(new Color(255, 255, 255, 0));
         setBasicPaints();
         initCustomPaints();
     }
@@ -67,6 +76,10 @@ public class JMIPaintMgr {
         int height = this.mApp.getPalette2D().getHeight();
         double deltaBasic = (double)width / NUM_BASIC_COLOR;
         double deltaCustom = (double)width / NUM_CUSTOM_COLOR;
+
+        double wx = width - RATIO_X * deltaCustom;
+        double wy = height - RATIO_Y * deltaCustom;
+        double wr = RATIO_R * deltaCustom;
 
         // On basic paints
         if (pt.y < deltaBasic) {
@@ -79,10 +92,10 @@ public class JMIPaintMgr {
             return mCustomPaints.get(index);
         }
         // On water
-        // else if () {
-
-        // }
-        // On 
+        else if (Point2D.distance(pt.x, pt.y, wx, wy) < wr) {
+            return mWater;
+        }
+        // On other paints
         else {
             for(JMIPaintMixable paint : mPaints) {
                 if (paint.isUnder(pt))  return paint;

@@ -19,12 +19,13 @@ import java.awt.geom.Point2D;
 public class JSICanvas2D extends JPanel {
     //constants
     private static final Color COLOR_PT_CURVE_DEFAULT = new Color(0, 0, 0, 192);
-    private static final Color COLOR_SELECTED_PT_CURVE = Color.ORANGE;
+    private static final Color COLOR_HALO_SELECTED_PT_CURVE = new Color(255, 191, 0, 127);
     public static final Color COLOR_SELECTION_BOX = new Color(255, 0, 0, 64);
     public static final Color COLOR_CROSSHAIR = new Color(255, 0, 0, 64);
     private static final Color COLOR_INFO = new Color(255, 0, 0, 128);
     private static final Stroke STROKE_PT_CURVE_DEFAULT = 
         new BasicStroke(5.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
+    private static final float WIDTH_HALO = 5.0f;
     public static final Stroke STROKE_SELECTION_BOX = new BasicStroke(5.0f);
     public static final Stroke STROKE_CROSSHAIR = new BasicStroke(5.0f);
     private static final Font FONT_INFO = new Font("Monospaced", Font.PLAIN, 24);
@@ -117,14 +118,17 @@ public class JSICanvas2D extends JPanel {
     private void drawSelectedPtCurves(Graphics2D g2) {
         for (JSIPtCurve selectedPtCurve : this.mApp.getPtCurveMgr().getSelectedPtCurves()) {
             BasicStroke originalStroke = (BasicStroke)selectedPtCurve.getStroke();
-            BasicStroke bgStroke = new BasicStroke(originalStroke.getLineWidth() + 5.0f,
-                    originalStroke.getEndCap(), originalStroke.getLineJoin());
+            BasicStroke bgStroke = new BasicStroke(
+                originalStroke.getLineWidth() + JSICanvas2D.WIDTH_HALO,
+                originalStroke.getEndCap(), 
+                originalStroke.getLineJoin());
             
-                    this.drawPtCurve(g2, selectedPtCurve,
-                    JSICanvas2D.COLOR_SELECTED_PT_CURVE,
-                    bgStroke);
             this.drawPtCurve(g2, selectedPtCurve,
-                    new Color(255),
+                JSICanvas2D.COLOR_HALO_SELECTED_PT_CURVE,
+                bgStroke);
+
+            this.drawPtCurve(g2, selectedPtCurve,
+                    new Color(239, 239, 239, 255),
                     originalStroke);
 
             this.drawPtCurve(g2, selectedPtCurve,
