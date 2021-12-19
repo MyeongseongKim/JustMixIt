@@ -1,11 +1,11 @@
 package jmi.cmd;
 
 import java.awt.Point;
-
 import jmi.JMIApp;
 import jmi.JMIPaintMixable;
 import x.XApp;
 import x.XLoggableCmd;
+
 
 public class JMICmdToChoosePaint extends XLoggableCmd {
     //field

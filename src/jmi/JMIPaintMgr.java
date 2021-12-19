@@ -1,10 +1,9 @@
 package jmi;
 
-import java.util.ArrayList;
-
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 
 
 public class JMIPaintMgr {

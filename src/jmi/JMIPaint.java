@@ -2,6 +2,7 @@ package jmi;
 
 import java.awt.Color;
 
+
 public class JMIPaint {
     // constants
     

@@ -2,9 +2,9 @@ package jmi.cmd;
 
 import java.awt.Color;
 import jmi.JMIApp;
-import jmi.JMIPaint;
 import x.XApp;
 import x.XLoggableCmd;
+
 
 public class JMICmdToSetPaintForCustomPalette extends XLoggableCmd {
     //field

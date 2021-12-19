@@ -1,11 +1,11 @@
 package jmi.cmd;
 
 import java.util.ArrayList;
-
 import jmi.JMIApp;
 import jmi.JMIPaintMixable;
 import x.XApp;
 import x.XLoggableCmd;
+
 
 public class JMICmdToMixPaint extends XLoggableCmd {
     //field

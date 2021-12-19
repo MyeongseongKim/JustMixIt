@@ -11,6 +11,7 @@ import jmi.JMIPaint;
 import x.XApp;
 import x.XLoggableCmd;
 
+
 public class JMICmdToSavePalette extends XLoggableCmd {
     //field
 	

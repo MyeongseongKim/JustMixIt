@@ -8,6 +8,7 @@ import jmi.JMIPaintMixable;
 import x.XApp;
 import x.XLoggableCmd;
 
+
 public class JMICmdToGeneratePaint extends XLoggableCmd {
     //field
     private JMIBrush mBrush = null;

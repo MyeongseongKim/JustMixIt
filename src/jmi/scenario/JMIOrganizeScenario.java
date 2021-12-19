@@ -168,7 +168,6 @@ public class JMIOrganizeScenario extends XScenario {
         public void handleMouseDrag(MouseEvent e) {
             JMIApp app = (JMIApp)this.mScenario.getApp();
             app.getBrush().setPt(e.getPoint());
-            Point pt = app.getBrush().getPt();
 
             ArrayList<JMIPaintMixable> paints = app.getPaintMgr().getPaints();
             JMIPaint paint = paints.get(paints.size() - 1);
@@ -358,7 +357,6 @@ public class JMIOrganizeScenario extends XScenario {
         public void handleMouseDrag(MouseEvent e) {
             JMIApp app = (JMIApp)this.mScenario.getApp();
             app.getBrush().setPt(e.getPoint());
-            Point pt = app.getBrush().getPt();
 
             ArrayList<JMIPaintMixable> paints = app.getPaintMgr().getPaints();
             JMIPaint paint = paints.get(paints.size() - 1);

@@ -4,6 +4,7 @@ import jmi.JMIApp;
 import x.XApp;
 import x.XLoggableCmd;
 
+
 public class JMICmdToInitBrush extends XLoggableCmd {
 
     //private constructor

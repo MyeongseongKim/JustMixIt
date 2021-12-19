@@ -1,14 +1,13 @@
 package jmi.cmd;
 
-import java.awt.Color;
 import java.awt.geom.Point2D;
-
 import jmi.JMIApp;
 import jmi.JMIBrush;
 import jmi.JMIPaintMgr;
 import jmi.JMIPaintMixable;
 import x.XApp;
 import x.XLoggableCmd;
+
 
 public class JMICmdToMixPaintDynamically extends XLoggableCmd {
     // fields

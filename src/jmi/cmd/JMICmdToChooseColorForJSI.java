@@ -9,6 +9,7 @@ import jsi.scenario.JSISelectScenario;
 import x.XApp;
 import x.XLoggableCmd;
 
+
 public class JMICmdToChooseColorForJSI extends XLoggableCmd {
     //field
     JMIApp app;

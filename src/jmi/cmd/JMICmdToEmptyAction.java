@@ -4,9 +4,9 @@ import jmi.JMIApp;
 import x.XApp;
 import x.XLoggableCmd;
 
+
 public class JMICmdToEmptyAction extends XLoggableCmd {
     //field
-    JMIApp app;
 
     //private constructor
     private JMICmdToEmptyAction(XApp app) {

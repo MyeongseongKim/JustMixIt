@@ -145,7 +145,10 @@ public class JMIColorScenario extends XScenario {
             Point pt = app.getBrush().getPt();
 
             ArrayList<JMIPaintMixable> mPaints = app.getPaintMgr().getPaints();
+            ArrayList<JMIPaint> mBasicPaints = app.getPaintMgr().getBasicPaints();
+            ArrayList<JMIPaint> mCustomPaints = app.getPaintMgr().getCustomPaints();
             JMIPaint paint = app.getPaintMgr().getPaint(pt);
+
             if (paint == null) {
                 JMICmdToGeneratePaint.execute(app, app.getBrush());
                 JMICmdToInitBrush.execute(app);
@@ -154,6 +157,9 @@ public class JMIColorScenario extends XScenario {
                 if (mPaints.contains(paint)) {
                     JMICmdToGeneratePaint.execute(app, app.getBrush());
                     JMICmdToInitBrush.execute(app);
+                }
+                else if (mCustomPaints.contains(paint)) {
+                    
                 }
                 else {
                     if (paint.getColor() != app.getBrush().getColor())
@@ -196,10 +202,14 @@ public class JMIColorScenario extends XScenario {
             Point pt = app.getBrush().getPt();
             Color c = app.getPaintMgr().getPaint(pt).getColor();
 
-            if (c != null)
+            if (c != null) {
                 JMICmdToChangeColorForBrush.execute(app, c);
-            
+            }
             JMICmdToChooseColorForJSI.execute(app);
+
+            if (app.getBrush().getVolume() != 0) {
+                JMICmdToInitBrush.execute(app);   
+            }
 
             XCmdToChangeScene.execute(app, 
                 JMIDefaultScenario.ReadyScene.getSingleton(), null);

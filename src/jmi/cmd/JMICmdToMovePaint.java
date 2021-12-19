@@ -1,11 +1,10 @@
 package jmi.cmd;
 
-import java.awt.Point;
-import java.awt.geom.Point2D;
 import jmi.JMIApp;
 import jmi.JMIPaintMixable;
 import x.XApp;
 import x.XLoggableCmd;
+
 
 public class JMICmdToMovePaint extends XLoggableCmd {
     //field

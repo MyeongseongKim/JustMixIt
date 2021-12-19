@@ -59,12 +59,10 @@ public class JMIPalette2D extends JPanel{
     private void drawBasicPaints(Graphics2D g2, int w, int h) {
         double delta = (double)w / JMIPaintMgr.NUM_BASIC_COLOR;
 
-        Rectangle2D background = new Rectangle2D.Double(0, 0, w, delta);
-        g2.setColor(new Color(255, 255, 255, 255));
-        g2.fill(background);
-
         for (int i = 0; i < JMIPaintMgr.NUM_BASIC_COLOR; i++) {
             double x = delta * (double)i;
+            drawPattern(g2, x, h - delta, x + delta, h);
+
             Rectangle2D rect = new Rectangle2D.Double(x, 0, x + delta, delta);
             g2.setColor(mApp.getPaintMgr().getBasicPaints().get(i).getColor());
             g2.fill(rect);
@@ -78,21 +76,36 @@ public class JMIPalette2D extends JPanel{
     private void drawCustomPaints(Graphics2D g2, int w, int h) {
         double delta = (double)w / JMIPaintMgr.NUM_CUSTOM_COLOR;
 
-        Rectangle2D background = new Rectangle2D.Double(0, h - delta, w, h);
-        g2.setColor(new Color(255, 255, 255, 255));
-        g2.fill(background);
-
         for (int i = 0; i < JMIPaintMgr.NUM_CUSTOM_COLOR; i++) {
             double x = delta * (double)i;
+            drawPattern(g2, x, h - delta, x + delta, h);
+
             Rectangle2D rect = new Rectangle2D.Double(x, h - delta, x + delta, h);
             JMIPaint paint = mApp.getPaintMgr().getCustomPaints().get(i);
-            if (paint.getColor() == null)   g2.setColor(new Color(255, 255, 255, 255));
+            if (paint.getColor() == null)   g2.setColor(new Color(255, 255, 255, 0));
             else    g2.setColor(paint.getColor());
             g2.fill(rect);
 
             g2.setColor(COLOR_PALETTE);
             g2.setStroke(STROKE_PALETTE);
             g2.draw(rect);
+        }
+    }
+
+    private void drawPattern(Graphics2D g2, double xs, double ys, double xe, double ye) {
+        final int NUM = 4;
+        double dx = (xe - xs) / (double) NUM;
+        double dy = (ye - ys) / (double) NUM;
+
+        for (int i = 0; i < NUM; i++) {
+            for (int j = 0; j < NUM; j++) {
+                double x = xs + i * dx;
+                double y = ys + j * dy;
+                Rectangle2D rect = new Rectangle2D.Double(x, y, x + dx, y + dy);
+                if ((i+j) % 2 == 0)   g2.setColor(Color.WHITE);
+                else if ((i+j) % 2 == 1)    g2.setColor(new Color(191, 191, 191, 255));
+                g2.fill(rect);
+            }
         }
     }
 
