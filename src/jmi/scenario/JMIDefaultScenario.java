@@ -43,7 +43,7 @@ public class JMIDefaultScenario extends XScenario {
         this.addScene(JMIDefaultScenario.ReadyScene.createSingleton(this));
     }
 
-
+    
     public static class StandbyScene extends JMIScene {
         // singleton pattern
         private static StandbyScene mSingleton = null;
@@ -203,6 +203,8 @@ public class JMIDefaultScenario extends XScenario {
         @Override
         public void wrapUp() {}
     }
+
+    
     
     
 }

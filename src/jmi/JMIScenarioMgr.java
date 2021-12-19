@@ -6,6 +6,7 @@ import jmi.scenario.JMIColorScenario;
 
 import x.XScenarioMgr;
 
+
 public class JMIScenarioMgr extends XScenarioMgr{
     public JMIScenarioMgr(JMIApp app) {
         super(app);
@@ -22,4 +23,6 @@ public class JMIScenarioMgr extends XScenarioMgr{
     protected void setInitCurScene() {
         this.setCurScene(JMIDefaultScenario.StandbyScene.getSingleton());
     }
+
+    
 }

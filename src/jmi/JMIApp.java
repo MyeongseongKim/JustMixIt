@@ -65,7 +65,7 @@ public class JMIApp extends XApp {
         // step 2 : build and show visual components.
         this.mFrame.add(this.mPalette2D);
         this.mFrame.setSize(900, 600);
-        this.mFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        this.mFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.mFrame.setVisible(false);
         
         // step 3: conenct event listeners.
