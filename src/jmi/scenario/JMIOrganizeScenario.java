@@ -3,6 +3,8 @@ package jmi.scenario;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.geom.Point2D;
+import java.awt.geom.Ellipse2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -14,12 +16,14 @@ import jmi.JMIPaintMixable;
 import jmi.JMIScene;
 
 import jmi.cmd.JMICmdToChangeColorForBrush;
-import jmi.cmd.JMICmdToChoosePaint;
+import jmi.cmd.JMICmdToPickPaint;
+import jmi.cmd.JMICmdToRemovePickedPaint;
 import jmi.cmd.JMICmdToCopyPaint;
 import jmi.cmd.JMICmdToDeletedLastPaint;
 import jmi.cmd.JMICmdToMixPaint;
 import jmi.cmd.JMICmdToMovePaint;
 import jmi.cmd.JMICmdToSetPaintForCustomPalette;
+import jmi.cmd.JMICmdToSetPickedPaint;
 import x.XApp;
 import x.XScenario;
 import x.XCmdToChangeScene;
@@ -169,11 +173,8 @@ public class JMIOrganizeScenario extends XScenario {
             JMIApp app = (JMIApp)this.mScenario.getApp();
             app.getBrush().setPt(e.getPoint());
 
-            ArrayList<JMIPaintMixable> paints = app.getPaintMgr().getPaints();
-            JMIPaint paint = paints.get(paints.size() - 1);
-            if (paints.contains(paint)) {
-                JMICmdToMovePaint.execute(app, (JMIPaintMixable) paint);
-            }
+            JMIPaint paint = app.getPaintMgr().getPickedPaint();
+            JMICmdToMovePaint.execute(app, (JMIPaintMixable) paint);           
         }
 
         @Override
@@ -184,11 +185,18 @@ public class JMIOrganizeScenario extends XScenario {
 
             ArrayList<JMIPaint> customPaints = app.getPaintMgr().getCustomPaints();
             JMIPaint paint = app.getPaintMgr().getPaint(pt);
-            if (customPaints.contains(paint)) {
+
+            if (paint == null) {
+                JMICmdToSetPickedPaint.execute(app);
+            }
+            else if (customPaints.contains(paint)) {
                 int index = customPaints.indexOf(paint);
                 Color c = app.getBrush().getColor();
                 JMICmdToSetPaintForCustomPalette.execute(app, index, c);
                 JMICmdToDeletedLastPaint.execute(app);
+            }
+            else {
+                JMICmdToRemovePickedPaint.execute(app);
             }
 
             XCmdToChangeScene.execute(app, 
@@ -228,7 +236,9 @@ public class JMIOrganizeScenario extends XScenario {
         public void renderWorldObjects(Graphics2D g2) {}
 
         @Override
-        public void renderScreenObjects(Graphics2D g2) {}
+        public void renderScreenObjects(Graphics2D g2) {
+            JMIOrganizeScenario.getSingleton().drawPickedPaint(g2);
+        }
         
         @Override
         public void getReady() {
@@ -236,12 +246,15 @@ public class JMIOrganizeScenario extends XScenario {
             Point pt = app.getBrush().getPt();
             Color c = app.getPaintMgr().getPaint(pt).getColor();
 
-            JMICmdToChoosePaint.execute(app);
+            JMICmdToPickPaint.execute(app);
             JMICmdToChangeColorForBrush.execute(app, c);
         }
         
         @Override
-        public void wrapUp() {}
+        public void wrapUp() {
+            JMIApp app = (JMIApp)this.mScenario.getApp();
+            JMICmdToSetPickedPaint.execute(app);
+        }
     }
 
 
@@ -358,11 +371,8 @@ public class JMIOrganizeScenario extends XScenario {
             JMIApp app = (JMIApp)this.mScenario.getApp();
             app.getBrush().setPt(e.getPoint());
 
-            ArrayList<JMIPaintMixable> paints = app.getPaintMgr().getPaints();
-            JMIPaint paint = paints.get(paints.size() - 1);
-            if (paints.contains(paint)) {
-                JMICmdToMovePaint.execute(app, (JMIPaintMixable) paint);
-            }
+            JMIPaint paint = app.getPaintMgr().getPickedPaint();
+            JMICmdToMovePaint.execute(app, (JMIPaintMixable) paint);      
         }
 
         @Override
@@ -373,11 +383,18 @@ public class JMIOrganizeScenario extends XScenario {
 
             ArrayList<JMIPaint> customPaints = app.getPaintMgr().getCustomPaints();
             JMIPaint paint = app.getPaintMgr().getPaint(pt);
-            if (customPaints.contains(paint)) {
+
+            if (paint == null) {
+                JMICmdToSetPickedPaint.execute(app);
+            }
+            else if (customPaints.contains(paint)) {
                 int index = customPaints.indexOf(paint);
                 Color c = app.getBrush().getColor();
                 JMICmdToSetPaintForCustomPalette.execute(app, index, c);
                 JMICmdToDeletedLastPaint.execute(app);
+            }
+            else {
+                JMICmdToRemovePickedPaint.execute(app);
             }
 
             XCmdToChangeScene.execute(app, 
@@ -411,7 +428,9 @@ public class JMIOrganizeScenario extends XScenario {
         public void renderWorldObjects(Graphics2D g2) {}
 
         @Override
-        public void renderScreenObjects(Graphics2D g2) {}
+        public void renderScreenObjects(Graphics2D g2) {
+            JMIOrganizeScenario.getSingleton().drawPickedPaint(g2);
+        }
         
         @Override
         public void getReady() {
@@ -424,6 +443,25 @@ public class JMIOrganizeScenario extends XScenario {
         }
         
         @Override
-        public void wrapUp() {}
+        public void wrapUp() {
+            JMIApp app = (JMIApp)this.mScenario.getApp();
+            JMICmdToSetPickedPaint.execute(app);
+        }
+    }
+
+
+    public void drawPickedPaint(Graphics2D g2) {
+        JMIApp app = (JMIApp) this.mApp;
+        Point pt = app.getBrush().getPt();
+
+        JMIPaintMixable paint = app.getPaintMgr().getPickedPaint();
+
+        Color c = paint.getColor();
+        Point2D ctr = paint.getPt();
+        double r = paint.getRadius();
+
+        Ellipse2D e = new Ellipse2D.Double(ctr.getX() - r, ctr.getY() - r, 2*r, 2*r);
+        g2.setColor(c);
+        g2.fill(e);
     }
 }

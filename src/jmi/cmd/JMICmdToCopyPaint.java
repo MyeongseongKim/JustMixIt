@@ -30,7 +30,7 @@ public class JMICmdToCopyPaint extends XLoggableCmd {
         JMIPaintMixable paint = (JMIPaintMixable) app.getPaintMgr().getPaint(pt);
         JMIPaintMixable copy = 
             new JMIPaintMixable(paint.getColor(), paint.getPt(), paint.getVolume());
-        app.getPaintMgr().getPaints().add(copy);
+        app.getPaintMgr().setPickedPaint(copy);
 
         return true;
     }

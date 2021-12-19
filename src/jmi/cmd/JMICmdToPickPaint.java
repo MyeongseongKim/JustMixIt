@@ -7,18 +7,18 @@ import x.XApp;
 import x.XLoggableCmd;
 
 
-public class JMICmdToChoosePaint extends XLoggableCmd {
+public class JMICmdToPickPaint extends XLoggableCmd {
     //field
     JMIApp app;
 
     //private constructor
-    private JMICmdToChoosePaint(XApp app) {
+    private JMICmdToPickPaint(XApp app) {
         super(app);
     }
     
     public static boolean execute(XApp app) {
-        JMICmdToChoosePaint cmd = 
-            new JMICmdToChoosePaint(app);
+        JMICmdToPickPaint cmd = 
+            new JMICmdToPickPaint(app);
         return cmd.execute();
     }
     
@@ -31,7 +31,8 @@ public class JMICmdToChoosePaint extends XLoggableCmd {
         JMIPaintMixable copy = 
             new JMIPaintMixable(paint.getColor(), paint.getPt(), paint.getVolume());
         app.getPaintMgr().getPaints().remove(paint);
-        app.getPaintMgr().getPaints().add(copy);
+
+        app.getPaintMgr().setPickedPaint(copy);
 
         return true;
     }

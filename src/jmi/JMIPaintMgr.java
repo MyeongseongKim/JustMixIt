@@ -22,6 +22,14 @@ public class JMIPaintMgr {
         return mPaints;
     }
 
+    private JMIPaintMixable mPickedPaint = null;
+    public JMIPaintMixable getPickedPaint() {
+        return mPickedPaint;
+    }
+    public void setPickedPaint(JMIPaintMixable p) {
+        this.mPickedPaint = p;
+    }
+
     private ArrayList<JMIPaint> mBasicPaints = null;
     public ArrayList<JMIPaint> getBasicPaints() {
         return mBasicPaints;

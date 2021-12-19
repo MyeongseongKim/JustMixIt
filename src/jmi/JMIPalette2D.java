@@ -42,16 +42,20 @@ public class JMIPalette2D extends JPanel{
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        
         Graphics2D g2 = (Graphics2D)g;
+
+        JMIScene curScene = (JMIScene) this.mApp.getScenarioMgr().getCurScene();
+
+        curScene.renderWorldObjects(g2);
+        drawPaints(g2);
 
         drawBasicPaints(g2, mApp.getPalette2D().getWidth(), mApp.getPalette2D().getHeight());
         drawCustomPaints(g2, mApp.getPalette2D().getWidth(), mApp.getPalette2D().getHeight());
         drawWater(g2, mApp.getPalette2D().getWidth(), mApp.getPalette2D().getHeight());
-
-        drawPaints(g2);
         
+        curScene.renderScreenObjects(g2);
         drawBrush(g2);
+
         
         drawInfo(g2);
     }
