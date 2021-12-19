@@ -31,11 +31,6 @@ public class JMIApp extends XApp {
         return this.mBrush;
     }
 
-    private JMIBrushMarkMgr mBrushMarkMgr = null;
-    public JMIBrushMarkMgr getBrushMarkMgr() {
-        return this.mBrushMarkMgr;
-    }
-
     private JMIPaintMgr mPaintMgr = null;
     public JMIPaintMgr getPaintMgr() {
         return this.mPaintMgr;
@@ -62,7 +57,6 @@ public class JMIApp extends XApp {
         this.mPalette2D = new JMIPalette2D(this);
         this.mEventListener = new JMIEventListener(this);
         this.mBrush = new JMIBrush();
-        this.mBrushMarkMgr = new JMIBrushMarkMgr();
         this.mPaintMgr = new JMIPaintMgr(this);
         this.mScenarioMgr = new JMIScenarioMgr(this);
         this.mLogMgr = new XLogMgr();
