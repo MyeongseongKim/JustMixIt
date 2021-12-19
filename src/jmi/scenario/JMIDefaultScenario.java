@@ -11,9 +11,7 @@ import jmi.JMIScene;
 import jmi.JMIPaint;
 import jmi.JMIPaintMgr;
 
-import jmi.cmd.JMICmdToInitBrush;
 import jmi.cmd.JMICmdToMixPaint;
-import jmi.cmd.JMICmdToChangeColorForBrush;
 import jmi.cmd.JMICmdToCleanPalette;
 import jmi.cmd.JMICmdToOpenPalette;
 import jmi.cmd.JMICmdToSavePalette;

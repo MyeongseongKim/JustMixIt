@@ -12,6 +12,7 @@ import jmi.JMIPaint;
 import jmi.JMIPaintMgr;
 import jmi.JMIPaintMixable;
 import jmi.JMIScene;
+
 import jmi.cmd.JMICmdToChangeColorForBrush;
 import jmi.cmd.JMICmdToChoosePaint;
 import jmi.cmd.JMICmdToCopyPaint;

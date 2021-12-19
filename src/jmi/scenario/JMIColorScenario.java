@@ -19,12 +19,7 @@ import jmi.cmd.JMICmdToInitBrush;
 import jmi.cmd.JMICmdToMixPaint;
 import jmi.cmd.JMICmdToMixPaintDynamically;
 import jmi.cmd.JMICmdToChangeColorForBrush;
-
-import jsi.JSIApp;
-import jsi.scenario.JSIDefaultScenario;
-import jsi.scenario.JSISelectScenario;
-import jsi.cmd.JSICmdToChangeColorForCurPtCurve;
-import jsi.cmd.JSICmdToChangeColorForSelectedPtCurves;
+import jmi.cmd.JMICmdToChooseColorForJSI;
 
 import x.XApp;
 import x.XScenario;
@@ -79,7 +74,6 @@ public class JMIColorScenario extends XScenario {
             app.getBrush().setPt(e.getPoint());
 
             JMICmdToUpdatePaintVolumeOfBrush.execute(app);
-            // app.getBrush().setPrevPt(pt);
         }
 
         @Override
@@ -87,20 +81,7 @@ public class JMIColorScenario extends XScenario {
             JMIApp app = (JMIApp)this.mScenario.getApp();
             app.getBrush().setPt(e.getPoint());
 
-            JSIApp jsi = (JSIApp)app.getApp();
-            if (jsi.getScenarioMgr().getCurScene() == 
-                JSIDefaultScenario.ReadyScene.getSingleton()) {
-
-                JSICmdToChangeColorForCurPtCurve.execute(jsi, 
-                    app.getBrush().getColor());
-            }
-            else if (jsi.getScenarioMgr().getCurScene() == 
-                JSISelectScenario.SelectedReadyScene.getSingleton()) {
-                
-                JSICmdToChangeColorForSelectedPtCurves.execute(jsi, 
-                    app.getBrush().getColor());
-            }
-            jsi.getCanvas2D().repaint();
+            JMICmdToChooseColorForJSI.execute(app);
 
             if (app.getBrush().getVolume() > 0) {
                 XCmdToChangeScene.execute(app, 
@@ -215,11 +196,10 @@ public class JMIColorScenario extends XScenario {
             Point pt = app.getBrush().getPt();
             Color c = app.getPaintMgr().getPaint(pt).getColor();
 
-            // JMICmdToGeneratePaint.execute(app, app.getBrush());
-            // JMICmdToInitBrush.execute(app);
-
             if (c != null)
                 JMICmdToChangeColorForBrush.execute(app, c);
+            
+            JMICmdToChooseColorForJSI.execute(app);
 
             XCmdToChangeScene.execute(app, 
                 JMIDefaultScenario.ReadyScene.getSingleton(), null);
