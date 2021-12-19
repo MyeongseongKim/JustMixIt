@@ -21,6 +21,7 @@ import jmi.cmd.JMICmdToPickPaint;
 import jmi.cmd.JMICmdToRemovePickedPaint;
 import jmi.cmd.JMICmdToCopyPaint;
 import jmi.cmd.JMICmdToMixPaint;
+import jmi.cmd.JMICmdToMixWithPaint;
 import jmi.cmd.JMICmdToMovePaint;
 import jmi.cmd.JMICmdToSetPaintForCustomPalette;
 import jmi.cmd.JMICmdToSetPickedPaint;
@@ -184,11 +185,16 @@ public class JMIOrganizeScenario extends XScenario {
             app.getBrush().setPt(e.getPoint());
             Point pt = app.getBrush().getPt();
 
+            ArrayList<JMIPaintMixable> paints = app.getPaintMgr().getPaints();
             ArrayList<JMIPaint> customPaints = app.getPaintMgr().getCustomPaints();
             JMIPaint paint = app.getPaintMgr().getPaint(pt);
 
             if (paint == null) {
                 JMICmdToSetPickedPaint.execute(app);
+            }
+            else if (paints.contains(paint)) {
+                JMICmdToMixWithPaint.execute(app, (JMIPaintMixable) paint);
+                JMICmdToRemovePickedPaint.execute(app);
             }
             else if (customPaints.contains(paint)) {
                 int index = customPaints.indexOf(paint);
@@ -384,11 +390,16 @@ public class JMIOrganizeScenario extends XScenario {
             app.getBrush().setPt(e.getPoint());
             Point pt = app.getBrush().getPt();
 
+            ArrayList<JMIPaintMixable> paints = app.getPaintMgr().getPaints();
             ArrayList<JMIPaint> customPaints = app.getPaintMgr().getCustomPaints();
             JMIPaint paint = app.getPaintMgr().getPaint(pt);
 
             if (paint == null) {
                 JMICmdToSetPickedPaint.execute(app);
+            }
+            else if (paints.contains(paint)) {
+                JMICmdToMixWithPaint.execute(app, (JMIPaintMixable) paint);
+                JMICmdToRemovePickedPaint.execute(app);
             }
             else if (customPaints.contains(paint)) {
                 int index = customPaints.indexOf(paint);
