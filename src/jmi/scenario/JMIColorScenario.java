@@ -13,10 +13,11 @@ import jmi.JMIPaintMgr;
 import jmi.JMIPaintMixable;
 import jmi.JMIScene;
 
-import jmi.cmd.JMICmdToIncreasePaintVolumeForBrush;
+import jmi.cmd.JMICmdToUpdatePaintVolumeOfBrush;
 import jmi.cmd.JMICmdToGeneratePaint;
 import jmi.cmd.JMICmdToInitBrush;
 import jmi.cmd.JMICmdToMixPaint;
+import jmi.cmd.JMICmdToMixPaintDynamically;
 import jmi.cmd.JMICmdToChangeColorForBrush;
 
 import jsi.JSIApp;
@@ -77,7 +78,8 @@ public class JMIColorScenario extends XScenario {
             JMIApp app = (JMIApp)this.mScenario.getApp();
             app.getBrush().setPt(e.getPoint());
 
-            JMICmdToIncreasePaintVolumeForBrush.execute(app);
+            JMICmdToUpdatePaintVolumeOfBrush.execute(app);
+            // app.getBrush().setPrevPt(pt);
         }
 
         @Override
@@ -197,8 +199,13 @@ public class JMIColorScenario extends XScenario {
         public void handleMouseDrag(MouseEvent e) {
             JMIApp app = (JMIApp)this.mScenario.getApp();
             app.getBrush().setPt(e.getPoint());
+            Point pt = app.getBrush().getPt();
 
-            // Dynamic color mixing.
+            // Dynamic Paint mixing.
+            JMIPaint paint = app.getPaintMgr().getPaint(pt);
+            if (app.getPaintMgr().getPaints().contains(paint)) {
+                JMICmdToMixPaintDynamically.execute(app, (JMIPaintMixable) paint);
+            }
         }
 
         @Override
@@ -211,7 +218,8 @@ public class JMIColorScenario extends XScenario {
             // JMICmdToGeneratePaint.execute(app, app.getBrush());
             // JMICmdToInitBrush.execute(app);
 
-            JMICmdToChangeColorForBrush.execute(app, c);
+            if (c != null)
+                JMICmdToChangeColorForBrush.execute(app, c);
 
             XCmdToChangeScene.execute(app, 
                 JMIDefaultScenario.ReadyScene.getSingleton(), null);

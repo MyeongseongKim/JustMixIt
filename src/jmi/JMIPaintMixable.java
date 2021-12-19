@@ -6,7 +6,7 @@ import java.awt.geom.Point2D;
 
 public class JMIPaintMixable extends JMIPaint{
     // constants
-    public static final double COEFFICENT_VALUE = 0.5;
+    public static final double COEFFICENT_VALUE = 2.0;
 
     // fields
     protected Point2D mPt = null;
@@ -26,8 +26,10 @@ public class JMIPaintMixable extends JMIPaint{
     public double getVolume() {
         return this.mVolume;
     }
-    public void setVolume(double a) {
-        this.mVolume = a;
+    public void setVolume(double v) {
+        this.mVolume = v;
+        double c = JMIPaintMixable.COEFFICENT_VALUE;       
+        this.mRadius = Math.sqrt(c * mVolume);
     }
 
     // constructor

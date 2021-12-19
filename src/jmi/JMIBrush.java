@@ -16,6 +16,14 @@ public class JMIBrush {
     public void setPt(Point pt) {
         this.mPt = pt;
     }
+
+    private Point mPrevPt = null;
+    public Point getPrevPt() {
+        return this.mPrevPt;
+    }
+    public void setPrevPt(Point pt) {
+        this.mPrevPt = pt;
+    }
     
     private Color mColor = null;
     public Color getColor() {
@@ -38,12 +46,10 @@ public class JMIBrush {
         this.mRadius = r;
     }
     
-    private long mCurMillis = 0;
-    private long mPrevMillis = 0;
-
     // constructor
     public JMIBrush() {
         this.mPt = new Point(0, 0);
+        this.mPrevPt = new Point(0, 0);
         this.mColor = COLOR_DEFAULT;
         this.mVolume = 0.0f;
         this.mRadius = 0.0;
@@ -55,20 +61,10 @@ public class JMIBrush {
         this.mRadius = 0.0;
     }
 
-    public void timerSet() {
-        this.mCurMillis = System.currentTimeMillis();
-        this.mPrevMillis = mCurMillis;
-    }
-
-    public void updateVolume() {
+    public void updateVolume(double d) {
         double c = JMIPaintMixable.COEFFICENT_VALUE;
-        this.mCurMillis = System.currentTimeMillis();
-        if (c > 0)
-            this.mVolume += mCurMillis - mPrevMillis;
-        else if (c < 0)
-            this.mVolume -= mCurMillis - mPrevMillis;
+        mVolume += d;
         
-        setRadius(Math.sqrt((Math.abs(c) * mVolume)));
-        mPrevMillis = mCurMillis;
+        setRadius(Math.sqrt(c * mVolume));
     }
 }

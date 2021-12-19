@@ -24,7 +24,6 @@ public class JMICmdToChangeColorForBrush extends XLoggableCmd {
     @Override
     protected boolean defineCmd() {
         JMIApp app = (JMIApp) this.mApp;
-        app.getBrush().timerSet();
         app.getBrush().setColor(this.mColor);
         return true;
     }
