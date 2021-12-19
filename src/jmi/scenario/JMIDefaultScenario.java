@@ -188,8 +188,10 @@ public class JMIDefaultScenario extends XScenario {
         @Override
         public void getReady() {
             JMIApp app = (JMIApp)this.mScenario.getApp();
+
+            // Check overlaps.
+            // If paints are overlaped, mix them.
             JMIPaintMgr paintMgr = app.getPaintMgr();
-            
             JMIPaintMixable lastPaint = paintMgr.getLastPaint();
             JMIPaintMixable overlap = paintMgr.getOverlap(lastPaint);
             while (overlap != null) {

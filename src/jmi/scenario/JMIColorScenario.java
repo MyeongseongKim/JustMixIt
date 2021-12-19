@@ -5,14 +5,18 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 import jmi.JMIApp;
 import jmi.JMIPaint;
+import jmi.JMIPaintMgr;
+import jmi.JMIPaintMixable;
 import jmi.JMIScene;
 
 import jmi.cmd.JMICmdToIncreasePaintVolumeForBrush;
 import jmi.cmd.JMICmdToGeneratePaint;
 import jmi.cmd.JMICmdToInitBrush;
+import jmi.cmd.JMICmdToMixPaint;
 import jmi.cmd.JMICmdToChangeColorForBrush;
 
 import jsi.JSIApp;
@@ -157,12 +161,35 @@ public class JMIColorScenario extends XScenario {
             app.getBrush().setPt(e.getPoint());
             Point pt = app.getBrush().getPt();
 
+            ArrayList<JMIPaintMixable> mPaints = app.getPaintMgr().getPaints();
             JMIPaint paint = app.getPaintMgr().getPaint(pt);
-            if (paint != null) {
-                if (paint.getColor() != app.getBrush().getColor())
+            if (paint == null) {
+                JMICmdToGeneratePaint.execute(app, app.getBrush());
+                JMICmdToInitBrush.execute(app);
+            }
+            else {
+                if (mPaints.contains(paint)) {
+                    JMICmdToGeneratePaint.execute(app, app.getBrush());
                     JMICmdToInitBrush.execute(app);
-                XCmdToChangeScene.execute(app, 
-                    JMIColorScenario.PaintSelectScene.getSingleton(), this);
+                }
+                else {
+                    if (paint.getColor() != app.getBrush().getColor())
+                        JMICmdToInitBrush.execute(app);
+                    XCmdToChangeScene.execute(app, 
+                        JMIColorScenario.PaintSelectScene.getSingleton(), this);
+                }
+            }
+
+            // Check overlaps.
+            // If paints are overlaped, mix them.
+            JMIPaintMgr paintMgr = app.getPaintMgr();
+            JMIPaintMixable lastPaint = paintMgr.getLastPaint();
+            JMIPaintMixable overlap = paintMgr.getOverlap(lastPaint);
+            while (overlap != null) {
+                JMICmdToMixPaint.execute(app, lastPaint, overlap);
+
+                lastPaint = paintMgr.getLastPaint();
+                overlap = paintMgr.getOverlap(lastPaint);
             }
         }
 
@@ -170,6 +197,8 @@ public class JMIColorScenario extends XScenario {
         public void handleMouseDrag(MouseEvent e) {
             JMIApp app = (JMIApp)this.mScenario.getApp();
             app.getBrush().setPt(e.getPoint());
+
+            // Dynamic color mixing.
         }
 
         @Override
@@ -177,8 +206,8 @@ public class JMIColorScenario extends XScenario {
             JMIApp app = (JMIApp)this.mScenario.getApp();
             app.getBrush().setPt(e.getPoint());
 
-            JMICmdToGeneratePaint.execute(app, app.getBrush());
-            JMICmdToInitBrush.execute(app);
+            // JMICmdToGeneratePaint.execute(app, app.getBrush());
+            // JMICmdToInitBrush.execute(app);
 
             XCmdToChangeScene.execute(app, 
                 JMIDefaultScenario.ReadyScene.getSingleton(), null);

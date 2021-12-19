@@ -48,8 +48,6 @@ public class JMIPaintMgr {
     private void initCustomPaints() {
         for (int i = 0; i < NUM_CUSTOM_COLOR; i++) {
             mCustomPaints.add(new JMIPaint(null));
-            // mCustomPaints.add(new JMIPaint(
-            //     new Color((float) Math.random(), (float) Math.random(), (float) Math.random(), (float) Math.random())));
         }
     }
 
